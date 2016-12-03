@@ -119,8 +119,8 @@
     mouseX = event.clientX - windowHalfX;
   mouseY  = event.clientY - windowHalfY;
 
-    targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
-  targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.02;
+    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.01;
+  targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.01;
    }
 
    function onDocumentMouseUp( event ) {
@@ -174,8 +174,8 @@
 
      mouseX = event.touches[ 0 ].pageX - windowHalfX;
    mouseY = event.touches[ 0 ].pageY - windowHalfY;
-     targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
-   targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.05;
+     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.01;
+   targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.01;
 
     }
 
@@ -195,8 +195,8 @@
 
    function render() {
 
-   mesh.rotation.y += ( targetRotationX - mesh.rotation.y ) * 0.05;
-  mesh.rotation.x += ( targetRotationY - mesh.rotation.x ) * 0.05;
+   mesh.rotation.y += ( targetRotationX - mesh.rotation.y ) * 0.01;
+  mesh.rotation.x += ( targetRotationY - mesh.rotation.x ) * 0.01;
     renderer.render( scene, camera );
 
    }
