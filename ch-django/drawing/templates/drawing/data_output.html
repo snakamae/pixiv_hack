@@ -16,7 +16,7 @@
 	        {
 		        if (data > log_count) {
 		            if (log_count != 0) {
-		                console.log("ゲストが入場しました");
+		                alert_login();
 		            };
 		            log_count = data;
 		        };
@@ -32,6 +32,31 @@
         });
     },4000);
     });
+
+    var alert_login = function() {
+        toastr.options.timeOut = 2000; // 3秒
+        toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+        };
+        Command: toastr["info"]("新たにゲストが入場しました！");
+        $('#linkButton').click(function() {
+            toastr.success('click');
+        });
+    };
+
 
    var container, stats;
 
@@ -67,14 +92,14 @@
 
     camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
     camera.position.y = 50;
-    camera.position.z = 200;
+    camera.position.z = 100;
 
     scene = new THREE.Scene();
 
     drawObject();
 
     renderer = new THREE.CanvasRenderer();
-    renderer.setClearColor( 0xf0f0f0 );
+    renderer.setClearColor( 0x000000 );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
@@ -121,8 +146,8 @@
     mouseX = event.clientX - windowHalfX;
     mouseY  = event.clientY - windowHalfY;
 
-    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.01;
-    targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.01;
+    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.006;
+    targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.006;
    }
 
    function onDocumentMouseUp( event ) {
@@ -144,13 +169,13 @@
    function onDeviceOrientationX(x) {
      var diffX = parseFloat(x) - gyroDefaultX
      gyroDefaultX = parseFloat(x)
-     targetRotationX = targetRotationX - diffX*2.0
+     targetRotationX = targetRotationX - diffX*1.5
    }
 
    function onDeviceOrientationY(y) {
      var diffY = parseFloat(y) - gyroDefaultY
      gyroDefaultY = parseFloat(y)
-     targetRotationY = targetRotationY + diffY*2.0
+     targetRotationY = targetRotationY + diffY*1.5
 
    }
 
@@ -176,8 +201,8 @@
 
      mouseX = event.touches[ 0 ].pageX - windowHalfX;
      mouseY = event.touches[ 0 ].pageY - windowHalfY;
-     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.01;
-     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.01;
+     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.006;
+     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.006;
 
     }
 
@@ -186,57 +211,42 @@
    //
 
    function animate() {
-
     requestAnimationFrame( animate );
-
-    //stats.begin();
     render();
-    //stats.end();
-
    }
 
    function render() {
-
      mesh.rotation.y += ( targetRotationX - mesh.rotation.y ) * 0.05;
      mesh.rotation.x += ( targetRotationY - mesh.rotation.x ) * 0.05;
      renderer.render( scene, camera );
-
    }
 
    //---------------------------------------------------------
    //  物体を作る
    //---------------------------------------------------------
-   function drawObject()
-   {
-       var imgFile = [
-       ];
+   function drawObject() {
+     var imgFile = [];
 
-        for (var i = 0; i < 10; i++) {
-            imgFile.push(img_data["image_urls"][i]);
+     for (var i = 0; i < 10; i++) {
+         imgFile.push(img_data["image_urls"][i]);
+     }
+
+      var canv = document.createElement("canvas");
+      canv.width = 1000;
+      canv.height = 500;
+
+      var allnum = imgFile.length;
+      var cnt = 0;
+      var imgList = [];
+      for(var i in imgFile) {
+         imgList[i] = new Image();
+
+        if (++cnt == allnum) { //画像が全部揃ったらメッシュを作成
+            imgList[i].onload = function() {
+                 drawImage(canv, imgList);
+               };
         }
-
-
-       var canv = document.createElement("canvas");
-       canv.width = 2000;
-       canv.height = 500;
-
-       var allnum = imgFile.length;
-       var cnt = 0;
-       var imgList = [];
-       for(var i in imgFile)
-       {
-           imgList[i] = new Image();
-           imgList[i].onload = function()
-           {
-               if (++cnt == allnum) //画像が全部揃ったらメッシュを作成
-                   drawImage(canv, imgList);
-           };
-           imgList[i].onerror = function()
-           {
-               if (++cnt == allnum) //画像が全部揃ったらメッシュを作成
-                   drawImage(canv, imgList);
-           };
-           imgList[i].src = imgFile[i];
+          imgList[i].src = imgFile[i];
        }
    }
 
@@ -245,19 +255,19 @@
    //---------------------------------------------------------
    function drawImage(canv, imgList)
    {
-       var ctx = canv.getContext('2d');
+      var ctx = canv.getContext('2d');
        var n = 0;
        var m = 0;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 100; y < canv.height - 100; y += 60)
+       for(var y = 80; y < canv.height - 150; y += 80)
        {
-           for(var x = 0; x < canv.width; x += 160)
+           for(var x = 0; x < canv.width; x += 80)
            {
                var img = imgList[m % imgList.length];
               m += n + Math.round(10 * Math.random());
               n++;
-              ctx.drawImage(img, x, y, 150, 50);
+              ctx.drawImage(img, x, y, xsiz*70/150, ysiz*70/150);
            }
        }
        //
@@ -266,7 +276,7 @@
         tex.needsUpdate = true;
        //
       //  //マテリアルとメッシュを作ってシーンに追加
-        var geo = new THREE.SphereGeometry(800);
+        var geo = new THREE.SphereGeometry(200);
       //  geo.position.y =  150;
     //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
         var mat = new THREE.MeshBasicMaterial({map: tex});
