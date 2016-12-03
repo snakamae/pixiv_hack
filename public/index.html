@@ -111,7 +111,7 @@
      timer = setTimeout(function(){
        if(campo==true){
            if(camera.position.z>50){
-             camera.position.z-=300;
+             camera.position.z-=250;
            } else {
              campo = false;
              camout()
@@ -176,7 +176,7 @@
         timer = setTimeout(function(){
           if(campo==true){
               if(camera.position.z>50){
-                camera.position.z-=300;
+                camera.position.z-=250;
               }
               else {
                 campo = false;
@@ -192,7 +192,7 @@
 
    function camout(){
      if(camera.position.z<50){
-       camera.position.z+=300 ;
+       camera.position.z+=250 ;
        console.log('going out')
      } else{
        campo=true;
