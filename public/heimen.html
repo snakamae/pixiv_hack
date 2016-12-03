@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Intro to WebGL with three.js</title>
+    </head>
+
+    <body>
+
+        <div id="webgl-container"></div>
+
+
+    </body>
+
+</html>
+<script src="build/three.js"></script>
+
+<script src="js/renderers/Projector.js"></script>
+<script src="js/renderers/CanvasRenderer.js"></script>
+
+<script src="js/libs/stats.min.js"></script>
+<script>
+// doing the example from the Docs to learn
+
+var scene = new THREE.Scene();
+
+var camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,1,1000);
+
+var renderer = new THREE.WebGLRenderer();
+
+
+renderer.setSize( window.innerWidth, window.innerHeight );
+
+// tried this a little different from the example in docs
+document.getElementById("webgl-container").appendChild(renderer.domElement);
+var geometry = new THREE.BoxGeometry(200,200,200);
+var material = new THREE.MeshBasicMaterial({color:0x00ff20});
+var cube = new THREE.Mesh(geometry,material);
+console.log(cube.rotation);
+scene.add(cube);
+camera.position.z = 500;
+var degrees = 45;
+cube.rotation.y = degrees * (Math.PI/180);
+cube.rotation.z = degrees * (Math.PI/180);
+
+function render (){
+  requestAnimationFrame(render);
+  camin();
+  renderer.render(scene,camera);
+}
+render();
+var campo= true;
+
+
+function camin(){
+
+if(campo==true){
+    if(camera.position.z>200){
+      camera.position.z-=10;
+    }
+    else {
+      campo = false;
+      camout()
+    }
+}
+
+else if(campo==false){
+  camout();
+  console.log(camera.position.z);
+}
+}
+
+function camout(){
+  if(camera.position.z<600){
+    camera.position.z+=10;
+    console.log('going out')
+  }
+  else{
+    campo=true;
+  }
+}
+</script>
