@@ -14,10 +14,6 @@
   </style>
  </head>
  <body>
-   <p>gyro</p>
-   <p id="a">---</p>
-   <p id="b">---</p>
-   <p id="c">---</p>
   <script src="build/three.js"></script>
 
   <script src="js/renderers/Projector.js"></script>
@@ -168,8 +164,8 @@
 
     mouseX = event.clientX - windowHalfX;
     mouseY  = event.clientY - windowHalfY;
-    targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
-    targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.02;
+    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.02;
+    targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.02;
    }
 
    function onDocumentMouseUp( event ) {
@@ -190,13 +186,13 @@
    function onDeviceOrientationX(x) {
      var diffX = parseFloat(x) - gyroDefaultX
      gyroDefaultX = parseFloat(x)
-     targetRotationX = targetRotationX - diffX*1.5
+     targetRotationX = targetRotationX - diffX*2.0
    }
 
    function onDeviceOrientationY(y) {
      var diffY = parseFloat(y) - gyroDefaultY
      gyroDefaultY = parseFloat(y)
-     targetRotationY = targetRotationY + diffY*1.5
+     targetRotationY = targetRotationY + diffY*2.0
 
    }
 
@@ -221,8 +217,8 @@
 
      mouseX = event.touches[ 0 ].pageX - windowHalfX;
      mouseY = event.touches[ 0 ].pageY - windowHalfY;
-     targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
-     targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.02;
+     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.02;
+     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.02;
     }
 
    }
