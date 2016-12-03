@@ -46,8 +46,8 @@ def userworks(request, user_id):
 def ranking(request):
     image_urls = []
 
-    #
-    for i in range(2):
+
+    for i in range(1):
         query_string = urllib.urlencode({"mode": "rookie", "page": (i+1)})
 
         response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
