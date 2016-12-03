@@ -1,29 +1,6 @@
-{% load staticfiles %}
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
- <head>
-  <title>three.js canvas - geometry - cube</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <style>
-   body {
-    font-family: Monospace;
-    background-color: #f0f0f0;
-    margin: 0px;
-    overflow: hidden;
-   }
-  </style>
- </head>
- <body>
-
-  <script src="{% static 'build/three.js' %}"></script>
-
-  <script src="{% static 'js/renderers/Projector.js' %}"></script>
-  <script src="{% static 'js/renderers/CanvasRenderer.js' %}"></script>
-
-  <script src="{% static 'js/libs/stats.min.js' %}"></script>
-
+{% block content %}
   <script>
     var img_data = {{ data|safe }}
 
@@ -322,5 +299,4 @@
 
   </script>
 
- </body>
-</html>
+{% endblock content %}
