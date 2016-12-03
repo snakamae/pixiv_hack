@@ -231,9 +231,10 @@
                var img = imgList[m % imgList.length];
               m += n + Math.round(10 * Math.random());
               n++;
-               if(img.width > 0)
+               if(img.width < 0) {
                    //読み込めたやつ
-                   ctx.drawImage(img, x, y, 250, 150);
+                  //  ctx.drawImage(img, x, y, 250, 150);
+                 }
                else
                {
                    //読み込めなかったとき
