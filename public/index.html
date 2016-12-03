@@ -106,8 +106,8 @@
      mouseX = event.clientX - windowHalfX;
      mouseY  = event.clientY - windowHalfY;
 
-     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.02;
-     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.02;
+     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.005;
+     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.005;
    }
 
    function onDocumentMouseUp( event ) {
@@ -152,8 +152,8 @@
       event.preventDefault();
       mouseX = event.touches[ 0 ].pageX - windowHalfX;
       mouseY = event.touches[ 0 ].pageY - windowHalfY;
-      targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.02;
-      targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.02;
+      targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.004;
+      targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.004;
     }
    }
 
