@@ -14,10 +14,6 @@
   </style>
  </head>
  <body>
-   <p>gyro</p>
-   <p id="a">あああ</p>
-   <p id="b">あああ</p>
-   <p id="c">あああ</p>
   <script src="build/three.js"></script>
 
   <script src="js/renderers/Projector.js"></script>
@@ -74,7 +70,7 @@
 
     // Cube
 
-    var geometry = new THREE.SphereGeometry( 200, 50, 50 );
+    var geometry = new THREE.SphereGeometry( 200, 10, 10 );
 
     for ( var i = 0; i < geometry.faces.length; i += 2 ) {
 
@@ -194,11 +190,11 @@
 
      var diffX = x - gyroDefaultX
      gyroDefaultX = x
-     targetRotationX = targetRotationX + diffX * 0.02
+     targetRotationX = targetRotationX + diffX * 0.01
 
-     document.getElementById("a").innerHTML = "<p>" + alpha + "</p>"; //
-     document.getElementById("b").innerHTML = "<p>" + beta + "</p>";
-     document.getElementById("c").innerHTML = "<p>" + gamma + "</p>";
+     var diffY = y - gyroDefaultY
+     gyroDefaultY = y
+     targetRotationY = targetRotationY + diffY * 0.01
    }
 
    function onDocumentTouchStart( event ) {
