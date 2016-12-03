@@ -112,8 +112,8 @@
     mouseX = event.clientX - windowHalfX;
     mouseY  = event.clientY - windowHalfY;
 
-    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.01;
-    targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.005;
+    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.008;
+    targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.008;
    }
 
    function onDocumentMouseUp( event ) {
@@ -135,7 +135,7 @@
    function onDeviceOrientationX(x) {
      var diffX = parseFloat(x) - gyroDefaultX
      gyroDefaultX = parseFloat(x)
-     targetRotationX = targetRotationX - diffX*2.0
+     targetRotationX = targetRotationX - diffX*1.0
    }
 
    function onDeviceOrientationY(y) {
@@ -167,8 +167,8 @@
 
      mouseX = event.touches[ 0 ].pageX - windowHalfX;
      mouseY = event.touches[ 0 ].pageY - windowHalfY;
-     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.01;
-     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.005;
+     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.008;
+     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.008;
 
     }
 
