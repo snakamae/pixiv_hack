@@ -16,6 +16,8 @@
  <body>
    <p>gyro</p>
    <p id="a">---</p>
+   <p id="b">---</p>
+   <p id="c">---</p>
   <script src="build/three.js"></script>
 
   <script src="js/renderers/Projector.js"></script>
@@ -189,8 +191,9 @@
      var diffX = x - gyroDefaultX
      gyroDefaultX = x
      targetRotationX = targetRotationX + diffX * 0.001
-     document.getElementById("a").innerHTML = "<p>" + targetRotationX + "</p>";
-
+     document.getElementById("a").innerHTML = "<p>" + x + "</p>";
+     document.getElementById("b").innerHTML = "<p>" + diffX + "</p>";
+     document.getElementById("c").innerHTML = "<p>" + targetRotationX + "</p>";
 
      var diffY = y - gyroDefaultY
      gyroDefaultY = y
