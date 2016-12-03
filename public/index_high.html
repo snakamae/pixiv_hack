@@ -102,11 +102,11 @@
      targetRotationXOnMouseDown = targetRotationX;
      targetRotationYOnMouseDown = targetRotationY;
 
-     var interval = 500;
+     var interval = 2000;
      timer = setTimeout(function(){
        if(campo==true){
            if(camera.position.z>50){
-             camera.position.z-=100;
+             camera.position.z-=150;
            }
            else {
              campo = false;
@@ -126,7 +126,7 @@
      mouseY  = event.clientY - windowHalfY;
 
      targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.005;
-     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.005;
+     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.004;
    }
 
    function onDocumentMouseUp( event ) {
@@ -150,7 +150,7 @@
    function onDeviceOrientationY(y) {
      var diffY = parseFloat(y) - gyroDefaultY
      gyroDefaultY = parseFloat(y)
-     targetRotationY = targetRotationY + diffY*1.5
+     targetRotationY = targetRotationY + diffY*1.3
    }
 
    function onDocumentTouchStart( event ) {
@@ -165,11 +165,11 @@
 
 
 
-        var interval = 500;
+        var interval = 1000;
         timer = setTimeout(function(){
           if(campo==true){
               if(camera.position.z>50){
-                camera.position.z-=100;
+                camera.position.z-=150;
               }
               else {
                 campo = false;
@@ -191,7 +191,7 @@
    }
    function camout(){
      if(camera.position.z<50){
-       camera.position.z+=100 ;
+       camera.position.z+=150 ;
        console.log('going out')
      }
      else{
@@ -205,8 +205,8 @@
       event.preventDefault();
       mouseX = event.touches[ 0 ].pageX - windowHalfX;
       mouseY = event.touches[ 0 ].pageY - windowHalfY;
-      targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.006;
-      targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.006;
+      targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.005;
+      targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.004;
     }
    }
 
@@ -235,8 +235,8 @@
 
 
        var canv = document.createElement("canvas");
-       canv.width = 1000;
-       canv.height = 500;
+       canv.width = 4000;
+       canv.height = 2000;
 
        var allnum = imgFile.length;
        var cnt = 0;
@@ -268,16 +268,16 @@
        var m = 0;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 80; y < canv.height - 150; y += 80)
+       for(var y = 350; y < canv.height - 400; y += 210)
        {
-           for(var x = 0; x < canv.width; x += 80)
+           for(var x = 0; x < canv.width; x += 210)
            {
                var img = imgList[m % imgList.length];
-              m += n + Math.round(10 * Math.random());
+              m += n + Math.round(50 * Math.random());
               n++;
                if(img.width > 0)
                    //読み込めたやつ
-                   ctx.drawImage(img, x, y, xsiz*70/150, ysiz*70/150);
+                  ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
            }
        }
        //
@@ -286,7 +286,7 @@
         tex.needsUpdate = true;
        //
       //  //マテリアルとメッシュを作ってシーンに追加
-        var geo = new THREE.SphereGeometry(200);
+        var geo = new THREE.SphereGeometry(400);
         geo.scale(-1,1,1);
       //  geo.position.y =  150;
     //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
