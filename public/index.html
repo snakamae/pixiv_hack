@@ -188,13 +188,13 @@
    }
 
    function onDeviceOrientation(x, y) {
-     var diffX = parseFloat(x) - gyroDefaultX
-     gyroDefaultX = parseFloat(x)
-     targetRotationX = targetRotationX
+     var diffX = parseFloat(x) - gyroDefaultX;
+     gyroDefaultX = parseFloat(x);
+     targetRotationX = 0;
 
-     var diffY = parseFloat(y) - gyroDefaultY
-     gyroDefaultY = parseFloat(y)
-    targetRotationY = targetRotationY
+     var diffY = parseFloat(y) - gyroDefaultY;
+     gyroDefaultY = parseFloat(y);
+     targetRotationY = 0;
 
    }
 
