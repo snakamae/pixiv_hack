@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js canvas - geometry - cube</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+
+		<script src="build/three.js"></script>
+
+		<script src="js/renderers/Projector.js"></script>
+		<script src="js/renderers/CanvasRenderer.js"></script>
+
+		<script src="js/libs/stats.min.js"></script>
+
+		<script>
+
+			var container, stats;
+
+			var camera, scene, renderer;
+
+			var cube, plane;
+
+			var targetRotation = 0;
+			var targetRotationOnMouseDown = 0;
+
+			var mouseX = 0;
+			var mouseXOnMouseDown = 0;
+
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+
+			init();
+			animate();
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				var info = document.createElement( 'div' );
+				info.style.position = 'absolute';
+				info.style.top = '10px';
+				info.style.width = '100%';
+				info.style.textAlign = 'center';
+				info.innerHTML = 'Drag to spin the cube';
+				container.appendChild( info );
+
+				camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 1, 2000 );
+				camera.position.y = 150;
+				camera.position.z = 2000;
+
+				scene = new THREE.Scene();
+
+drawObject();
+
+				// Plane
+
+				var geometry = new THREE.PlaneBufferGeometry( 200, 200 );
+				geometry.rotateX( - Math.PI / 2 );
+
+				var material = new THREE.MeshBasicMaterial( { color: 0xe0e0e0, overdraw: 0.5 } );
+
+				plane = new THREE.Mesh( geometry, material );
+				scene.add( plane );
+
+				renderer = new THREE.CanvasRenderer();
+				renderer.setClearColor( 0xf0f0f0 );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+
+				stats = new Stats();
+				container.appendChild( stats.dom );
+
+				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+			function onWindowResize() {
+
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			//
+
+			function onDocumentMouseDown( event ) {
+
+				event.preventDefault();
+
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+				document.addEventListener( 'mouseout', onDocumentMouseOut, false );
+
+				mouseXOnMouseDown = event.clientX - windowHalfX;
+				targetRotationOnMouseDown = targetRotation;
+
+			}
+
+			function onDocumentMouseMove( event ) {
+
+				mouseX = event.clientX - windowHalfX;
+
+				targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
+
+			}
+
+			function onDocumentMouseUp( event ) {
+
+				document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
+				document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
+
+			}
+
+			function onDocumentMouseOut( event ) {
+
+				document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
+				document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
+
+			}
+
+			function onDocumentTouchStart( event ) {
+
+				if ( event.touches.length === 1 ) {
+
+					event.preventDefault();
+
+					mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
+					targetRotationOnMouseDown = targetRotation;
+
+				}
+
+			}
+
+			function onDocumentTouchMove( event ) {
+
+				if ( event.touches.length === 1 ) {
+
+					event.preventDefault();
+
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
+
+				}
+
+			}
+
+			//
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				stats.begin();
+				render();
+				stats.end();
+
+			}
+
+			function render() {
+
+				plane.rotation.y = cube.rotation.y += ( targetRotation - cube.rotation.y ) * 0.05;
+				renderer.render( scene, camera );
+
+			}
+			function drawObject()
+		  {
+		 		 var imgFile = [
+		 				 "http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png",
+		 				 "http://image.itmedia.co.jp/nl/articles/1608/05/kutsu_160805pkcsong01.jpg",
+		 				];
+
+
+		 		 var canv = document.createElement("canvas");
+		 		 canv.width = 500;
+		 		 canv.height = 500;
+
+		 		 var allnum = imgFile.length;
+		 		 var cnt = 0;
+		 		 var imgList = [];
+		 		 for(var i in imgFile)
+		 		 {
+		 				 imgList[i] = new Image();
+		 				 imgList[i].onload = function()
+		 				 {
+		 						 if (++cnt == allnum) //画像が全部揃ったらメッシュを作成
+		 								 drawImage(canv, imgList);
+		 				 };
+		 				 imgList[i].onerror = function()
+		 				 {
+		 						 if (++cnt == allnum) //画像が全部揃ったらメッシュを作成
+		 								 drawImage(canv, imgList);
+		 				 };
+		 				 imgList[i].src = imgFile[i];
+		 		 }
+		  }
+
+		  //---------------------------------------------------------
+		  //  カンバスに絵を描いて貼り付ける
+		  //---------------------------------------------------------
+		  function drawImage(canv, imgList)
+		  {
+		 		 var ctx = canv.getContext('2d');
+		 		 var n = 0;
+		 		 var ysiz = imgList[n].height;
+		 		 var xsiz = imgList[n].width;
+		 		 for(var y = 0; y < canv.height; y += ysiz)
+		 		 {
+		 				 for(var x = 0; x < canv.width; x += xsiz)
+		 				 {
+		 						 var img = imgList[n++ % imgList.length];
+		 						 if(img.width > 0)
+		 								 //読み込めたやつ
+		 								 ctx.drawImage(img, x, y);
+		 				 }
+		 		 }
+		 		 //
+		 		//  // テクスチャを作成
+		 			var tex = new THREE.Texture(canv);
+		 			tex.needsUpdate = true;
+
+					// Cube
+
+					var geometry = new THREE.BoxGeometry( 1000,1000,1000);
+
+
+
+					var materialTop = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('https://pbs.twimg.com/profile_images/660946436801101824/niM7azZS.jpg')});
+					var materialSide = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
+					var materialBottom = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://cdn4.dualshockers.com/wp-content/uploads/2016/07/pokemon-4-1200x0.jpg')});
+					var materialRed = new THREE.MeshPhongMaterial({ color: 0xff0000 , side:THREE.DoubleSide, map:tex});
+					var materialsArray = [];
+
+					materialsArray.push(materialTop); //materialindex = 0
+					materialsArray.push(materialSide); // materialindex = 1
+					materialsArray.push(materialBottom); // materialindex = 2
+					materialsArray.push(materialRed);
+					materialsArray.push(materialRed);
+					materialsArray.push(materialRed);
+					var material = new THREE.MeshFaceMaterial(materialsArray);
+					//var geometry = new THREE.CylinderGeometry(0.9,1,0.5,3,1, false);
+					var aFaces = geometry.faces.length;
+					console.log(aFaces);
+					for(var i=0;i<aFaces;i++) {
+					geometry.faces[i].materialindex;
+					}
+
+					cube = new THREE.Mesh( geometry, material );
+					cube.position.y = 150;
+					scene.add( cube );
+		  }
+
+		</script>
+
+	</body>
+</html>
