@@ -1,37 +1,68 @@
-{% load staticfiles %}
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
- <head>
-  <title>three.js canvas - geometry - cube</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <style>
-   body {
-    font-family: Monospace;
-    background-color: #f0f0f0;
-    margin: 0px;
-    overflow: hidden;
-   }
-  </style>
- </head>
- <body>
-
-  <script src="{% static 'build/three.js' %}"></script>
-
-  <script src="{% static 'js/renderers/Projector.js' %}"></script>
-  <script src="{% static 'js/renderers/CanvasRenderer.js' %}"></script>
-
-  <script src="{% static 'js/libs/stats.min.js' %}"></script>
-
+{% block content %}
   <script>
     var img_data = {{ data|safe }}
+    var log_count = 0;
+    $(function(){
+    setInterval(function(){
+        $.ajax({
+	        url : '/drawing/log',
+	        type: 'GET',
+	        data: {
+	            'kind': 'ranking',
+	        },
+	        success : function(data)
+	        {
+		        if (data > log_count) {
+		            if (log_count != 0) {
+		                alert_login();
+		            };
+		            log_count = data;
+		        };
+	        },
+	        error : function(data)
+	        {
+		        console.log(data);
+	        },
+	        complete : function(data)
+	        {
+
+	        }
+        });
+    },4000);
+    });
+
+    var alert_login = function() {
+        toastr.options.timeOut = 2000; // 3秒
+        toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+        };
+        Command: toastr["info"]("新たにゲストが入場しました！");
+        $('#linkButton').click(function() {
+            toastr.success('click');
+        });
+    };
+
 
    var container, stats;
 
    var camera, scene, renderer;
 
-   var cube, plane, mesh;
+   var mesh;
 
    var targetRotationX = 0;
   var targetRotationY = 0;
@@ -47,6 +78,9 @@
    var windowHalfX = window.innerWidth / 2;
    var windowHalfY = window.innerHeight / 2;
 
+   var gyroDefaultX = 1.5
+   var gyroDefaultY = 0
+
    init();
    animate();
 
@@ -55,82 +89,24 @@
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-    var info = document.createElement( 'div' );
-    info.style.position = 'absolute';
-    info.style.top = '10px';
-    info.style.width = '100%';
-    info.style.textAlign = 'center';
-    info.innerHTML = 'Drag to spin the cube';
-    container.appendChild( info );
 
     camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
-     camera.position.y = 50;
-     camera.position.z = 200;
+    camera.position.y = 50;
+    camera.position.z = 100;
 
     scene = new THREE.Scene();
 
-    // Cube
-
-    var geometry = new THREE.SphereGeometry( 200 );
-
-    // for ( var i = 0; i < geometry.faces.length; i += 2 ) {
-    //
-    //  var hex = Math.random() * 0xffffff;
-    //  geometry.faces[ i ].color.setHex( hex );
-    //  geometry.faces[ i + 1 ].color.setHex( hex );
-    //
-    // }
-
-    var materialTop = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('https://pbs.twimg.com/profile_images/660946436801101824/niM7azZS.jpg')});
-    var materialSide = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
-    var materialBottom = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
-
-    var materialsArray = [];
-
-    materialsArray.push(materialTop); //materialindex = 0
-    materialsArray.push(materialSide); // materialindex = 1
-    materialsArray.push(materialBottom); // materialindex = 2
-    var material = new THREE.MeshFaceMaterial(materialsArray);
-    var aFaces = geometry.faces.length;
-    for(var i=0;i<aFaces;i++) {
-    geometry.faces[i].materialindex;
-    }
-
-
-    //var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0 } );
-    material.side = THREE.DoubleSide;
-    cube = new THREE.Mesh( geometry, material );
-    cube.position.y = 150;
-  //  scene.add( cube );
-
-  drawObject();
-
-    // Plane
-
-    var geometry = new THREE.PlaneBufferGeometry( 200, 200 );
-    geometry.rotateX( - Math.PI / 2 );
-
-    var material = new THREE.MeshBasicMaterial( { color: 0xe0e0e0, overdraw: 0.5 } );
-
-    plane = new THREE.Mesh( geometry, material );
-    //scene.add( plane );
+    drawObject();
 
     renderer = new THREE.CanvasRenderer();
-    renderer.setClearColor( 0xf0f0f0 );
+    renderer.setClearColor( 0x000000 );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
 
-    stats = new Stats();
-    container.appendChild( stats.dom );
-
-
-
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-
-    //
 
     window.addEventListener( 'resize', onWindowResize, false );
 
@@ -159,19 +135,19 @@
     document.addEventListener( 'mouseout', onDocumentMouseOut, false );
 
     mouseXOnMouseDown = event.clientX - windowHalfX;
-  mouseYOnMouseDown = event.clientY - windowHalfY;
+    mouseYOnMouseDown = event.clientY - windowHalfY;
     targetRotationXOnMouseDown = targetRotationX;
-  targetRotationYOnMouseDown = targetRotationY;
+    targetRotationYOnMouseDown = targetRotationY;
 
    }
 
    function onDocumentMouseMove( event ) {
 
     mouseX = event.clientX - windowHalfX;
-  mouseY  = event.clientY - windowHalfY;
+    mouseY  = event.clientY - windowHalfY;
 
-    targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
-  targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.02;
+    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.006;
+    targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.006;
    }
 
    function onDocumentMouseUp( event ) {
@@ -190,6 +166,19 @@
 
    }
 
+   function onDeviceOrientationX(x) {
+     var diffX = parseFloat(x) - gyroDefaultX
+     gyroDefaultX = parseFloat(x)
+     targetRotationX = targetRotationX - diffX*1.5
+   }
+
+   function onDeviceOrientationY(y) {
+     var diffY = parseFloat(y) - gyroDefaultY
+     gyroDefaultY = parseFloat(y)
+     targetRotationY = targetRotationY + diffY*1.5
+
+   }
+
    function onDocumentTouchStart( event ) {
 
     if ( event.touches.length === 1 ) {
@@ -197,9 +186,9 @@
      event.preventDefault();
 
      mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
-   mouseYOnMouseDown = event.touches[ 0 ].pageY - windowHalfY;
+     mouseYOnMouseDown = event.touches[ 0 ].pageY - windowHalfY;
      targetRotationXOnMouseDown = targetRotationX;
-   targetRotationYOnMouseDown = targetRotationY;
+     targetRotationYOnMouseDown = targetRotationY;
     }
 
    }
@@ -211,9 +200,9 @@
      event.preventDefault();
 
      mouseX = event.touches[ 0 ].pageX - windowHalfX;
-   mouseY = event.touches[ 0 ].pageY - windowHalfY;
-     targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
-   targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.05;
+     mouseY = event.touches[ 0 ].pageY - windowHalfY;
+     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.006;
+     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.006;
 
     }
 
@@ -222,56 +211,42 @@
    //
 
    function animate() {
-
     requestAnimationFrame( animate );
-
-    stats.begin();
     render();
-    stats.end();
-
    }
 
    function render() {
-
-   plane.rotation.y = cube.rotation.y = mesh.rotation.y += ( targetRotationX - cube.rotation.y ) * 0.05;
-  plane.rotation.x = cube.rotation.x = mesh.rotation.x += ( targetRotationY - cube.rotation.x ) * 0.05;
-    renderer.render( scene, camera );
-
+     mesh.rotation.y += ( targetRotationX - mesh.rotation.y ) * 0.05;
+     mesh.rotation.x += ( targetRotationY - mesh.rotation.x ) * 0.05;
+     renderer.render( scene, camera );
    }
 
    //---------------------------------------------------------
    //  物体を作る
    //---------------------------------------------------------
-   function drawObject()
-   {
-       var imgFile = [
+   function drawObject() {
+     var imgFile = [];
 
-       ];
-       for (var i = 0; i < 10; i++) {
-            imgFile.push(img_data["image_urls"][i]);
-        };
+     for (var i = 0; i < 10; i++) {
+         imgFile.push(img_data["image_urls"][i]);
+     }
 
-       var canv = document.createElement("canvas");
-       canv.width = 2000;
-       canv.height = 2000;
+      var canv = document.createElement("canvas");
+      canv.width = 1000;
+      canv.height = 500;
 
-       var allnum = imgFile.length;
-       var cnt = 0;
-       var imgList = [];
-       for(var i in imgFile)
-       {
-           imgList[i] = new Image();
-           imgList[i].onload = function()
-           {
-               if (++cnt == allnum) //画像が全部揃ったらメッシュを作成
-                   drawImage(canv, imgList);
-           };
-           imgList[i].onerror = function()
-           {
-               if (++cnt == allnum) //画像が全部揃ったらメッシュを作成
-                   drawImage(canv, imgList);
-           };
-           imgList[i].src = imgFile[i];
+      var allnum = imgFile.length;
+      var cnt = 0;
+      var imgList = [];
+      for(var i in imgFile) {
+         imgList[i] = new Image();
+
+        if (++cnt == allnum) { //画像が全部揃ったらメッシュを作成
+            imgList[i].onload = function() {
+                 drawImage(canv, imgList);
+               };
+        }
+          imgList[i].src = imgFile[i];
        }
    }
 
@@ -280,27 +255,19 @@
    //---------------------------------------------------------
    function drawImage(canv, imgList)
    {
-       var ctx = canv.getContext('2d');
+      var ctx = canv.getContext('2d');
        var n = 0;
+       var m = 0;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 0; y < canv.height; y += ysiz)
+       for(var y = 80; y < canv.height - 150; y += 80)
        {
-           for(var x = 0; x < canv.width; x += xsiz)
+           for(var x = 0; x < canv.width; x += 80)
            {
-               var img = imgList[n++ % imgList.length];
-               if(img.width > 0)
-                   //読み込めたやつ
-                   ctx.drawImage(img, x, y);
-               else
-               {
-                   //読み込めなかったとき
-                   ctx.fillStyle = "#f0e68c";
-                   ctx.fillRect(x, y, xsiz, ysiz);
-                   ctx.fillStyle = "#ff4500";
-                   ctx.font = "italic bold 20px sans-serif";
-                   ctx.fillText("no image", x + 80, y + 120);
-               }
+               var img = imgList[m % imgList.length];
+              m += n + Math.round(10 * Math.random());
+              n++;
+              ctx.drawImage(img, x, y, xsiz*70/150, ysiz*70/150);
            }
        }
        //
@@ -309,7 +276,7 @@
         tex.needsUpdate = true;
        //
       //  //マテリアルとメッシュを作ってシーンに追加
-        var geo = new THREE.SphereGeometry(800);
+        var geo = new THREE.SphereGeometry(200);
       //  geo.position.y =  150;
     //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
         var mat = new THREE.MeshBasicMaterial({map: tex});
@@ -322,5 +289,4 @@
 
   </script>
 
- </body>
-</html>
+{% endblock content %}

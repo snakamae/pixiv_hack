@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
+from django.http import HttpResponse, Http404
 import urllib
 import unirest
 import json
+from .models import Log
 
 # URLのv1より後はget処理内に記述する
 API_URL = ""
@@ -46,9 +48,10 @@ def userworks(request, user_id):
 def ranking(request):
     image_urls = []
 
+    Log.objects.create(page_kind="ranking")
 
     for i in range(1):
-        query_string = urllib.urlencode({"mode": "rookie", "page": (i+1)})
+        query_string = urllib.urlencode({"mode": "rookie", "page": (i + 1)})
 
         response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
 
@@ -65,5 +68,11 @@ def ranking(request):
     result = {
         "data": image_json
     }
-
     return render(request, 'drawing/data_output.html', result)
+
+
+# 基本的にAjaxから呼ぶ
+def log(request):
+    kind = request.GET['kind']
+    count = Log.objects.filter(page_kind=kind).count()
+    return HttpResponse(count)
