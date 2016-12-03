@@ -190,13 +190,10 @@
    function onDeviceOrientationX(x) {
      var diffX = parseFloat(x) - gyroDefaultX
      gyroDefaultX = parseFloat(x)
-     targetRotationX = targetRotationX + diffX
+     targetRotationX = targetRotationX - diffX
    }
 
    function onDeviceOrientationY(y) {
-    //  document.getElementById("a").innerHTML = "<p>" + x + "</p>";
-    //  document.getElementById("b").innerHTML = "<p>" + diffX + "</p>";
-    //  document.getElementById("c").innerHTML = "<p>" + targetRotationX + "</p>"
      var diffY = parseFloat(y) - gyroDefaultY
      gyroDefaultY = parseFloat(y)
      targetRotationY = targetRotationY + diffY
