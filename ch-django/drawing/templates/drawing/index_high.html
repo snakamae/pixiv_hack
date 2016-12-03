@@ -86,6 +86,26 @@
     var longtapX = 0;
     var longtapY = 0;
 
+    var mouse = {
+     x: 0,
+     y: 0
+   };
+
+   var touch = {
+    x: 0,
+    y: 0
+   };
+
+   var container,
+     scene,
+     camera,
+     renderer,
+     plane,
+     mouseMesh,
+     light;
+
+     var  meshm;
+
    init();
    animate();
 
@@ -164,9 +184,20 @@
      targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.005;
      targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.004;
 
-     if ((Math.abs(longtapX - mouseX) > 10) || (Math.abs(longtapY - mouseY) > 10)) {
-       clearTimeout(timer);
-     }
+     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+     var vector = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+     vector.unproject(camera);
+     var dir = vector.sub(camera.position).normalize();
+     var distance = -camera.position.z / dir.z;
+     var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+     meshm.position.copy(pos);
+
+      if ((Math.abs(longtapX - mouseX) > 10) || (Math.abs(longtapY - mouseY) > 10)) {
+        clearTimeout(timer);
+      }
    }
 
    function onDocumentMouseUp( event ) {
@@ -241,9 +272,23 @@
       mouseY = event.touches[ 0 ].pageY - windowHalfY;
       targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.005;
       targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.004;
+
+      touch.x = (event.touches[ 0 ].pageX / window.innerWidth) * 2 - 1;
+      touch.y = -(event.touches[ 0 ].pageY / window.innerHeight) * 2 + 1;
+
+
+      var vector = new THREE.Vector3(touch.x, touch.y, 0.5);
+      vector.unproject(camera);
+      var dir = vector.sub(camera.position).normalize();
+      var distance = -camera.position.z / dir.z;
+      var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+      meshm.position.copy(pos);
+
       if ((Math.abs(longtapX - mouseX) > 10) || (Math.abs(longtapY - mouseY) > 10)) {
         clearTimeout(timer);
       }
+
     }
    }
 
@@ -273,7 +318,6 @@
        for (var i = 0; i < 50; i++) {
            imgFile.push(img_data["image_urls"][i]);
        }
-
 
        var canv = document.createElement("canvas");
        canv.width = 4000;
@@ -330,10 +374,23 @@
       //  geo.position.y =  150;
     //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
         var mat = new THREE.MeshBasicMaterial({map: tex});
-    mat.side = THREE.DoubleSide;
+        mat.side = THREE.DoubleSide;
          mesh = new THREE.Mesh(geo, mat);
         scene.add(mesh);
+
+        var geom=new THREE.SphereGeometry(5);
+          var matm=new THREE.MeshBasicMaterial({
+               side: THREE.FrontSide,
+               color: 0x0099FF,
+               ambient:0x990000,
+               specular:0xffff00,
+               shininess:30,
+               metal:true
+      });
+          meshm=new THREE.Mesh(geom, matm);
+          scene.add(meshm);
    }
+
 
   </script>
 
