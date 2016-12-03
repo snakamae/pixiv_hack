@@ -101,6 +101,29 @@
      mouseYOnMouseDown = event.clientY - windowHalfY;
      targetRotationXOnMouseDown = targetRotationX;
      targetRotationYOnMouseDown = targetRotationY;
+
+     var interval = 500;
+     timer = setTimeout(function(){
+       if(campo==true){
+           if(camera.position.z>100){
+             camera.position.z-=500;
+           }
+           else {
+             campo = false;
+             camout()
+           }
+       }
+
+       else if(campo==false){
+         camout();
+         console.log(camera.position.z);
+       }
+
+
+
+
+     }, interval);
+
    }
 
    function onDocumentMouseMove( event ) {
