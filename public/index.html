@@ -112,8 +112,8 @@
     mouseX = event.clientX - windowHalfX;
     mouseY  = event.clientY - windowHalfY;
 
-    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.02;
-    targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.02;
+    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.01;
+    targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.01;
    }
 
    function onDocumentMouseUp( event ) {
@@ -167,8 +167,8 @@
 
      mouseX = event.touches[ 0 ].pageX - windowHalfX;
      mouseY = event.touches[ 0 ].pageY - windowHalfY;
-     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.05;
-     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.05;
+     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.01;
+     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.01;
 
     }
 
