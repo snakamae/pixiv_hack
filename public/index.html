@@ -65,7 +65,7 @@
     drawObject();
 
     renderer = new THREE.CanvasRenderer();
-    renderer.setClearColor( 0xf0f0f0 );
+    renderer.setClearColor( 0x000000 );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
@@ -195,8 +195,8 @@
          "http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png",
      ];
       var canv = document.createElement("canvas");
-      canv.width = 1000;
-      canv.height = 250;
+      canv.width = 2000;
+      canv.height = 1000;
 
       var allnum = imgFile.length;
       var cnt = 0;
@@ -223,14 +223,14 @@
        var m = 0;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 50; y < canv.height - 50; y += 50)
+       for(var y = 100; y < canv.height - 150; y += 150)
        {
-           for(var x = 0; x < canv.width; x += 100)
+           for(var x = 0; x < canv.width; x += 150)
            {
                var img = imgList[m % imgList.length];
               m += n + Math.round(10 * Math.random());
               n++;
-              ctx.drawImage(img, x, y, 70, 30);
+              ctx.drawImage(img, x, y, 130, 130);
            }
        }
        //
