@@ -257,8 +257,8 @@
 
 
        var canv = document.createElement("canvas");
-       canv.width = 6000;
-       canv.height = 3000;
+       canv.width = 2000;
+       canv.height = 2000;
 
        var allnum = imgFile.length;
        var cnt = 0;
@@ -294,9 +294,9 @@
        {
            for(var x = 0; x < canv.width; x += xsiz)
            {
-               var img = imgList[m % imgList.length];
-              m += n + Math.round(10 * Math.random());
-              n++;
+               var img = imgList[n++ % imgList.length];
+              //m += n + Math.round(10 * Math.random());
+              //n++;
                if(img.width > 0)
                    //読み込めたやつ
                    ctx.drawImage(img, x, y);
