@@ -44,6 +44,9 @@
    var windowHalfX = window.innerWidth / 2;
    var windowHalfY = window.innerHeight / 2;
 
+   var gyroDefaultX = 0
+   var gyroDefaultY = 0
+
    init();
    animate();
 
@@ -184,6 +187,19 @@
     document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
     document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
     document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
+
+   }
+
+   function onDeviceOrientationX(x) {
+     var diffX = parseFloat(x) - gyroDefaultX
+     gyroDefaultX = parseFloat(x)
+     targetRotationX = targetRotationX - diffX*2.0
+   }
+
+   function onDeviceOrientationY(y) {
+     var diffY = parseFloat(y) - gyroDefaultY
+     gyroDefaultY = parseFloat(y)
+     targetRotationY = targetRotationY + diffY*2.0
 
    }
 
