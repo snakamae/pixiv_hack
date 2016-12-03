@@ -245,13 +245,16 @@
            "http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png",
            "http://image.itmedia.co.jp/nl/articles/1608/05/kutsu_160805pkcsong01.jpg",
            "https://www.nintendo.co.jp/3ds/abej/about/img/bg_mario01.png",
-           "http://pokemon.appbako.com/wp-content/uploads/2016/08/zenigame.png"
+           "http://pokemon.appbako.com/wp-content/uploads/2016/08/zenigame.png",
+           "http://vignette4.wikia.nocookie.net/pocketmonsters/images/2/21/001Bulbasaur.png/revision/latest?cb=20110511045443&path-prefix=ja",
+           "http://stamp.jp.net/wp-content/uploads/icon/6/1626_icon.png",
+           "http://konomi.me/file/parts/I0003778/ab8accd309beb19a5385078fdd8568a9.jpg"
        ];
 
 
        var canv = document.createElement("canvas");
-       canv.width = 2000;
-       canv.height = 2000;
+       canv.width = 6000;
+       canv.height = 3000;
 
        var allnum = imgFile.length;
        var cnt = 0;
@@ -280,13 +283,16 @@
    {
        var ctx = canv.getContext('2d');
        var n = 0;
+       var m = 0;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
        for(var y = 0; y < canv.height; y += ysiz)
        {
            for(var x = 0; x < canv.width; x += xsiz)
            {
-               var img = imgList[n++ % imgList.length];
+               var img = imgList[m % imgList.length];
+              m += n + Math.round(10 * Math.random());
+              n++;
                if(img.width > 0)
                    //読み込めたやつ
                    ctx.drawImage(img, x, y);
@@ -307,7 +313,7 @@
         tex.needsUpdate = true;
        //
       //  //マテリアルとメッシュを作ってシーンに追加
-        var geo = new THREE.SphereGeometry(800);
+        var geo = new THREE.SphereGeometry(500);
       //  geo.position.y =  150;
     //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
         var mat = new THREE.MeshBasicMaterial({map: tex});
