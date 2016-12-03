@@ -28,7 +28,7 @@
 
    var camera, scene, renderer;
 
-   var cube, plane;
+   var cube, plane, mesh;
 
    var targetRotationX = 0;
   var targetRotationY = 0;
@@ -61,8 +61,8 @@
     container.appendChild( info );
 
     camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
-     camera.position.y = 150;
-     camera.position.z = 100;
+     camera.position.y = 50;
+     camera.position.z = 200;
 
     scene = new THREE.Scene();
 
@@ -80,7 +80,8 @@
 
     var materialTop = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('https://pbs.twimg.com/profile_images/660946436801101824/niM7azZS.jpg')});
     var materialSide = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
-    var materialBottom = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://cdn4.dualshockers.com/wp-content/uploads/2016/07/pokemon-4-1200x0.jpg')});
+    var materialBottom = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
+
     var materialsArray = [];
 
     materialsArray.push(materialTop); //materialindex = 0
@@ -88,7 +89,6 @@
     materialsArray.push(materialBottom); // materialindex = 2
     var material = new THREE.MeshFaceMaterial(materialsArray);
     var aFaces = geometry.faces.length;
-    console.log(aFaces);
     for(var i=0;i<aFaces;i++) {
     geometry.faces[i].materialindex;
     }
@@ -98,7 +98,9 @@
     material.side = THREE.DoubleSide;
     cube = new THREE.Mesh( geometry, material );
     cube.position.y = 150;
-    scene.add( cube );
+  //  scene.add( cube );
+
+  drawObject();
 
     // Plane
 
@@ -118,6 +120,8 @@
 
     stats = new Stats();
     container.appendChild( stats.dom );
+
+
 
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
@@ -226,11 +230,93 @@
 
    function render() {
 
-   plane.rotation.y = cube.rotation.y += ( targetRotationX - cube.rotation.y ) * 0.05;
-  plane.rotation.x = cube.rotation.x += ( targetRotationY - cube.rotation.x ) * 0.05;
+   plane.rotation.y = cube.rotation.y = mesh.rotation.y += ( targetRotationX - cube.rotation.y ) * 0.05;
+  plane.rotation.x = cube.rotation.x = mesh.rotation.x += ( targetRotationY - cube.rotation.x ) * 0.05;
     renderer.render( scene, camera );
 
    }
+
+   //---------------------------------------------------------
+   //  物体を作る
+   //---------------------------------------------------------
+   function drawObject()
+   {
+       var imgFile = [
+           "http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png",
+           "http://image.itmedia.co.jp/nl/articles/1608/05/kutsu_160805pkcsong01.jpg",
+           "https://www.nintendo.co.jp/3ds/abej/about/img/bg_mario01.png",
+           "http://pokemon.appbako.com/wp-content/uploads/2016/08/zenigame.png"
+       ];
+
+
+       var canv = document.createElement("canvas");
+       canv.width = 2000;
+       canv.height = 2000;
+
+       var allnum = imgFile.length;
+       var cnt = 0;
+       var imgList = [];
+       for(var i in imgFile)
+       {
+           imgList[i] = new Image();
+           imgList[i].onload = function()
+           {
+               if (++cnt == allnum) //画像が全部揃ったらメッシュを作成
+                   drawImage(canv, imgList);
+           };
+           imgList[i].onerror = function()
+           {
+               if (++cnt == allnum) //画像が全部揃ったらメッシュを作成
+                   drawImage(canv, imgList);
+           };
+           imgList[i].src = imgFile[i];
+       }
+   }
+
+   //---------------------------------------------------------
+   //  カンバスに絵を描いて貼り付ける
+   //---------------------------------------------------------
+   function drawImage(canv, imgList)
+   {
+       var ctx = canv.getContext('2d');
+       var n = 0;
+       var ysiz = imgList[n].height;
+       var xsiz = imgList[n].width;
+       for(var y = 0; y < canv.height; y += ysiz)
+       {
+           for(var x = 0; x < canv.width; x += xsiz)
+           {
+               var img = imgList[n++ % imgList.length];
+               if(img.width > 0)
+                   //読み込めたやつ
+                   ctx.drawImage(img, x, y);
+               else
+               {
+                   //読み込めなかったとき
+                   ctx.fillStyle = "#f0e68c";
+                   ctx.fillRect(x, y, xsiz, ysiz);
+                   ctx.fillStyle = "#ff4500";
+                   ctx.font = "italic bold 20px sans-serif";
+                   ctx.fillText("no image", x + 80, y + 120);
+               }
+           }
+       }
+       //
+      //  // テクスチャを作成
+        var tex = new THREE.Texture(canv);
+        tex.needsUpdate = true;
+       //
+      //  //マテリアルとメッシュを作ってシーンに追加
+        var geo = new THREE.SphereGeometry(800);
+      //  geo.position.y =  150;
+    //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
+        var mat = new THREE.MeshBasicMaterial({map: tex});
+    mat.side = THREE.DoubleSide;
+         mesh = new THREE.Mesh(geo, mat);
+        scene.add(mesh);
+   }
+
+
 
   </script>
 
