@@ -253,16 +253,16 @@
        var m = 0;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 5; y < canv.height; y += ysiz)
+       for(var y = 5; y < canv.height; y += 110)
        {
-           for(var x = 0; x < canv.width; x += xsiz)
+           for(var x = 0; x < canv.width; x += 120)
            {
                var img = imgList[m % imgList.length];
               m += n + Math.round(10 * Math.random());
               n++;
                if(img.width > 0)
                    //読み込めたやつ
-                   ctx.drawImage(img, x, y);
+                   ctx.drawImage(img, x, y, 100, 100);
                else
                {
                    //読み込めなかったとき
