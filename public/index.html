@@ -14,10 +14,10 @@
   </style>
  </head>
  <body>
-   <h3>gyro</h3>
-   <h3 id="a">あああ</h3>
-   <h3 id="b">あああ</h3>
-   <h3 id="c">あああ</h3>
+   <p>gyro</p>
+   <p id="a">あああ</p>
+   <p id="b">あああ</p>
+   <p id="c">あああ</p>
   <script src="build/three.js"></script>
 
   <script src="js/renderers/Projector.js"></script>
@@ -126,7 +126,7 @@
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-    document.addEventListener( 'deviceorientation', onDeviceOrientation, false );
+    window.addEventListener( 'deviceorientation', onDeviceOrientation, false );
     //
 
     window.addEventListener( 'resize', onWindowResize, false );
@@ -188,9 +188,9 @@
      var alpha = event.alpha;
      var beta = event.beta;
      var gamma = event.gamma;
-     document.getElementById("a").innerHTML = alpha;
-     document.getElementById("b").innerHTML = beta;
-     document.getElementById("c").innerHTML = gamma;
+     document.getElementById("a").innerHTML = "<p>" + alpha + "</p>";
+     document.getElementById("b").innerHTML = "<p>" + beta + "</p>";
+     document.getElementById("c").innerHTML = "<p>" + gamma + "</p>";
    }
 
    function onDocumentTouchStart( event ) {
