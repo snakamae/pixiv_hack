@@ -170,8 +170,8 @@
     mouseX = event.clientX - windowHalfX;
   mouseY  = event.clientY - windowHalfY;
 
-    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.05;
-  targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.05;
+    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.01;
+  targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.01;
    }
 
    function onDocumentMouseUp( event ) {
@@ -193,13 +193,13 @@
    function onDeviceOrientationX(x) {
      var diffX = parseFloat(x) - gyroDefaultX
      gyroDefaultX = parseFloat(x)
-     targetRotationX = targetRotationX - diffX*4
+     targetRotationX = targetRotationX - diffX*2
    }
 
    function onDeviceOrientationY(y) {
      var diffY = parseFloat(y) - gyroDefaultY
      gyroDefaultY = parseFloat(y)
-     targetRotationY = targetRotationY + diffY*4
+     targetRotationY = targetRotationY + diffY*2
 
    }
 
@@ -225,8 +225,8 @@
 
      mouseX = event.touches[ 0 ].pageX - windowHalfX;
    mouseY = event.touches[ 0 ].pageY - windowHalfY;
-     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.05;
-   targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.05;
+     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.01;
+   targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.01;
 
     }
 
@@ -246,8 +246,8 @@
 
    function render() {
 
-   plane.rotation.y = cube.rotation.y = mesh.rotation.y += ( targetRotationX - cube.rotation.y ) * 0.05;
-  plane.rotation.x = cube.rotation.x = mesh.rotation.x += ( targetRotationY - cube.rotation.x ) * 0.05;
+   plane.rotation.y = cube.rotation.y = mesh.rotation.y += ( targetRotationX - cube.rotation.y ) * 0.01;
+  plane.rotation.x = cube.rotation.x = mesh.rotation.x += ( targetRotationY - cube.rotation.x ) * 0.01;
     renderer.render( scene, camera );
 
    }
