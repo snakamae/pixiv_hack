@@ -177,9 +177,7 @@
    //
 
    function animate() {
-     setTimeout( function() {
-         requestAnimationFrame( animate );
-     }, 5000 / 30 );
+    requestAnimationFrame( animate );
     render();
    }
 
@@ -197,8 +195,8 @@
          "http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png",
      ];
       var canv = document.createElement("canvas");
-      canv.width = 2000;
-      canv.height = 500;
+      canv.width = 1000;
+      canv.height = 250;
 
       var allnum = imgFile.length;
       var cnt = 0;
@@ -225,14 +223,14 @@
        var m = 0;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 100; y < canv.height - 100; y += 60)
+       for(var y = 50; y < canv.height - 50; y += 40)
        {
-           for(var x = 0; x < canv.width; x += 160)
+           for(var x = 0; x < canv.width; x += 80)
            {
                var img = imgList[m % imgList.length];
               m += n + Math.round(10 * Math.random());
               n++;
-              ctx.drawImage(img, x, y, 150, 50);
+              ctx.drawImage(img, x, y, 70, 30);
            }
        }
        //
@@ -241,7 +239,7 @@
         tex.needsUpdate = true;
        //
       //  //マテリアルとメッシュを作ってシーンに追加
-        var geo = new THREE.SphereGeometry(800);
+        var geo = new THREE.SphereGeometry(400);
       //  geo.position.y =  150;
     //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
         var mat = new THREE.MeshBasicMaterial({map: tex});
