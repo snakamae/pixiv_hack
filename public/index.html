@@ -14,7 +14,6 @@
   </style>
  </head>
  <body>
-
   <script src="build/three.js"></script>
 
   <script src="js/renderers/Projector.js"></script>
@@ -31,18 +30,21 @@
    var cube, plane;
 
    var targetRotationX = 0;
-  var targetRotationY = 0;
+   var targetRotationY = 0;
    var targetRotationXOnMouseDown = 0;
-  var targetRotationYOnMouseDown = 0;
+   var targetRotationYOnMouseDown = 0;
 
-  var mouseX = 0;
+   var mouseX = 0;
    var mouseXOnMouseDown = 0;
 
-  var mouseY = 0;
+   var mouseY = 0;
    var mouseYOnMouseDown = 0;
 
    var windowHalfX = window.innerWidth / 2;
    var windowHalfY = window.innerHeight / 2;
+
+   var gyroDefaultX = 1.5
+   var gyroDefaultY = -1.5
 
    init();
    animate();
@@ -122,11 +124,10 @@
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-
+    //window.addEventListener( 'deviceorientation', onDeviceOrientation, false );
     //
 
     window.addEventListener( 'resize', onWindowResize, false );
-
    }
 
    function onWindowResize() {
@@ -161,14 +162,12 @@
    function onDocumentMouseMove( event ) {
 
     mouseX = event.clientX - windowHalfX;
-  mouseY  = event.clientY - windowHalfY;
-
-    targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
-  targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.02;
+    mouseY  = event.clientY - windowHalfY;
+    targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.02;
+    targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.02;
    }
 
    function onDocumentMouseUp( event ) {
-
     document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
     document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
     document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
@@ -183,10 +182,22 @@
 
    }
 
+   function onDeviceOrientationX(x) {
+     var diffX = parseFloat(x) - gyroDefaultX
+     gyroDefaultX = parseFloat(x)
+     targetRotationX = targetRotationX - diffX*2.0
+   }
+
+   function onDeviceOrientationY(y) {
+     var diffY = parseFloat(y) - gyroDefaultY
+     gyroDefaultY = parseFloat(y)
+     targetRotationY = targetRotationY + diffY*2.0
+
+   }
+
    function onDocumentTouchStart( event ) {
 
     if ( event.touches.length === 1 ) {
-
      event.preventDefault();
 
      mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
@@ -204,10 +215,9 @@
      event.preventDefault();
 
      mouseX = event.touches[ 0 ].pageX - windowHalfX;
-   mouseY = event.touches[ 0 ].pageY - windowHalfY;
-     targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
-   targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.05;
-
+     mouseY = event.touches[ 0 ].pageY - windowHalfY;
+     targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.02;
+     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.02;
     }
 
    }
@@ -226,8 +236,8 @@
 
    function render() {
 
-   plane.rotation.y = cube.rotation.y += ( targetRotationX - cube.rotation.y ) * 0.05;
-  plane.rotation.x = cube.rotation.x += ( targetRotationY - cube.rotation.x ) * 0.05;
+   plane.rotation.y = cube.rotation.y += ( targetRotationX - cube.rotation.y ) * 0.02;
+   plane.rotation.x = cube.rotation.x += ( targetRotationY - cube.rotation.x ) * 0.02;
     renderer.render( scene, camera );
 
    }
