@@ -188,12 +188,11 @@
    function onDeviceOrientation(x, y) {
      var diffX = x - gyroDefaultX
      gyroDefaultX = x
-     targetRotationX = targetRotationX + diffX * 0.02
+    //  targetRotationX = targetRotationX + diffX * 0.02
 
      var diffY = y - gyroDefaultY
      gyroDefaultY = y
-     targetRotationY = targetRotationY + diffY * 0.02
-
+    //  targetRotationY = targetRotationY + diffY * 0.02
 
      document.getElementById("a").innerHTML = "<p>" + x + "</p>"; //
      document.getElementById("b").innerHTML = "<p>" + y + "</p>";
