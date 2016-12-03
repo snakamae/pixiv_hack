@@ -13,7 +13,7 @@ API_HEADER = {"Authorization": ACCESS_TOKEN}
 
 def index(request):
     return render(request, 'drawing/index.html')
-    
+
 
 # ユーザ投稿作品抽出ビュー
 def userworks(request, user_id):
@@ -46,7 +46,7 @@ def userworks(request, user_id):
 def ranking(request):
     image_urls = []
 
-    # 1度のクエリで50件までしか取得できないので，2回回す
+    #
     for i in range(2):
         query_string = urllib.urlencode({"mode": "rookie", "page": (i+1)})
 
