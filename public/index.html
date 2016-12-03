@@ -207,7 +207,7 @@
         if (++cnt == allnum) { //画像が全部揃ったらメッシュを作成
             imgList[i].onload = function() {
                  drawImage(canv, imgList);
-               };
+            };
         }
           imgList[i].src = imgFile[i];
        }
@@ -240,11 +240,12 @@
        //
       //  //マテリアルとメッシュを作ってシーンに追加
         var geo = new THREE.SphereGeometry(200);
+        geo.scale(-1,1,1);
       //  geo.position.y =  150;
     //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
         var mat = new THREE.MeshBasicMaterial({map: tex});
-    mat.side = THREE.DoubleSide;
-         mesh = new THREE.Mesh(geo, mat);
+        mat.side = THREE.DoubleSide;
+        mesh = new THREE.Mesh(geo, mat);
         scene.add(mesh);
    }
 
