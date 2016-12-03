@@ -47,6 +47,9 @@
    var windowHalfX = window.innerWidth / 2;
    var windowHalfY = window.innerHeight / 2;
 
+   var gyroDefaultX = 0
+   var gyroDefaultY = 90
+
    init();
    animate();
 
@@ -166,7 +169,7 @@
     mouseX = event.clientX - windowHalfX;
     mouseY  = event.clientY - windowHalfY;
     targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
-  targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.02;
+    targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.02;
    }
 
    function onDocumentMouseUp( event ) {
@@ -185,10 +188,15 @@
    }
 
    function onDeviceOrientation(event) {
-     var alpha = event.alpha;
+     var x = event.alpha;
      var beta = event.beta;
-     var gamma = event.gamma;
-     document.getElementById("a").innerHTML = "<p>" + alpha + "</p>";
+     var y = event.gamma;
+
+     var diffX = x - gyroDefaultX
+     gyroDefaultX = x
+     targetRotationX = targetRotationX + diffX * 0.02
+
+     document.getElementById("a").innerHTML = "<p>" + alpha + "</p>"; //
      document.getElementById("b").innerHTML = "<p>" + beta + "</p>";
      document.getElementById("c").innerHTML = "<p>" + gamma + "</p>";
    }
@@ -213,9 +221,9 @@
      event.preventDefault();
 
      mouseX = event.touches[ 0 ].pageX - windowHalfX;
-   mouseY = event.touches[ 0 ].pageY - windowHalfY;
+     mouseY = event.touches[ 0 ].pageY - windowHalfY;
      targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
-   targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.05;
+     targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.05;
 
     }
 
