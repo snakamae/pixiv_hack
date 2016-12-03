@@ -47,7 +47,10 @@
    var gyroDefaultX = 1.5
    var gyroDefaultY = 0
 
-      var campo= true;
+    var campo= true;
+
+    var longtapX = 0;
+    var longtapY = 0;
 
    init();
    animate();
@@ -75,7 +78,7 @@
      document.addEventListener( 'mousedown', onDocumentMouseDown, false );
      document.addEventListener( 'touchstart', onDocumentTouchStart, false );
      document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-
+     document.addEventListener( 'touchend', onDocumentTouchEnd, false );
      window.addEventListener( 'resize', onWindowResize, false );
    }
 
@@ -102,18 +105,18 @@
      targetRotationXOnMouseDown = targetRotationX;
      targetRotationYOnMouseDown = targetRotationY;
 
-     var interval = 2000;
+     var interval = 1000;
+     longtapX = mouseXOnMouseDown
+     longtapY = mouseYOnMouseDown
      timer = setTimeout(function(){
        if(campo==true){
            if(camera.position.z>50){
-             camera.position.z-=150;
-           }
-           else {
+             camera.position.z-=300;
+           } else {
              campo = false;
              camout()
            }
-       }
-       else if(campo==false){
+       } else if(campo==false){
          camout();
          console.log(camera.position.z);
        }
@@ -121,21 +124,26 @@
    }
 
    function onDocumentMouseMove( event ) {
-
      mouseX = event.clientX - windowHalfX;
      mouseY  = event.clientY - windowHalfY;
 
      targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.005;
      targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.004;
+
+     if ((Math.abs(longtapX - mouseX) > 10) || (Math.abs(longtapY - mouseY) > 10)) {
+       clearTimeout(timer);
+     }
    }
 
    function onDocumentMouseUp( event ) {
+     clearTimeout(timer);
      document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
      document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
      document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
    }
 
    function onDocumentMouseOut( event ) {
+     clearTimeout(timer);
      document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
      document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
      document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
@@ -155,46 +163,38 @@
 
    function onDocumentTouchStart( event ) {
 
-    if ( event.touches.length === 1 ) {
-      event.preventDefault();
-      mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
-      mouseYOnMouseDown = event.touches[ 0 ].pageY - windowHalfY;
-      targetRotationXOnMouseDown = targetRotationX;
-      targetRotationYOnMouseDown = targetRotationY;
-    }
+     if ( event.touches.length === 1 ) {
+       event.preventDefault();
+       mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
+       mouseYOnMouseDown = event.touches[ 0 ].pageY - windowHalfY;
+       targetRotationXOnMouseDown = targetRotationX;
+       targetRotationYOnMouseDown = targetRotationY;
 
-
-
+       longtapX = mouseXOnMouseDown
+       longtapY = mouseYOnMouseDown
         var interval = 1000;
         timer = setTimeout(function(){
           if(campo==true){
               if(camera.position.z>50){
-                camera.position.z-=150;
+                camera.position.z-=300;
               }
               else {
                 campo = false;
                 camout()
               }
-          }
-
-          else if(campo==false){
+          } else if(campo==false){
             camout();
             console.log(camera.position.z);
           }
-
-
-
-
         }, interval);
-
-
+      }
    }
+
    function camout(){
      if(camera.position.z<50){
-       camera.position.z+=150 ;
+       camera.position.z+=300 ;
        console.log('going out')
-     }
-     else{
+     } else{
        campo=true;
      }
    }
@@ -207,7 +207,14 @@
       mouseY = event.touches[ 0 ].pageY - windowHalfY;
       targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.005;
       targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.004;
+      if ((Math.abs(longtapX - mouseX) > 10) || (Math.abs(longtapY - mouseY) > 10)) {
+        clearTimeout(timer);
+      }
     }
+   }
+
+   function onDocumentTouchEnd( event ) {
+     clearTimeout(timer);
    }
 
    //
@@ -272,12 +279,10 @@
        {
            for(var x = 0; x < canv.width; x += 210)
            {
-               var img = imgList[m % imgList.length];
+              var img = imgList[m % imgList.length];
               m += n + Math.round(50 * Math.random());
               n++;
-              //  if(img.width > 0)
-                   //読み込めたやつ
-                  ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
+              ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
            }
        }
 
