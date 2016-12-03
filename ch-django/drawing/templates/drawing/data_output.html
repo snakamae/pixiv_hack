@@ -3,14 +3,23 @@
 {% block content %}
   <script>
     var img_data = {{ data|safe }}
-
+    var log_count = 0;
     $(function(){
     setInterval(function(){
         $.ajax({
 	        url : '/drawing/log',
+	        type: 'GET',
+	        data: {
+	            'kind': 'ranking',
+	        },
 	        success : function(data)
 	        {
-		        console.log(data);
+		        if (data > log_count) {
+		            if (log_count != 0) {
+		                console.log("ゲストが入場しました");
+		            };
+		            log_count = data;
+		        };
 	        },
 	        error : function(data)
 	        {
@@ -21,7 +30,7 @@
 
 	        }
         });
-    },1000);
+    },4000);
     });
 
    var container, stats;

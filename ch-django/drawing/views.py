@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404
 import urllib
 import unirest
 import json
+from .models import Log
 
 # URLのv1より後はget処理内に記述する
 API_URL = ""
@@ -47,6 +48,8 @@ def userworks(request, user_id):
 def ranking(request):
     image_urls = []
 
+    Log.objects.create(page_kind="ranking")
+
     for i in range(1):
         query_string = urllib.urlencode({"mode": "rookie", "page": (i + 1)})
 
@@ -68,6 +71,8 @@ def ranking(request):
     return render(request, 'drawing/data_output.html', result)
 
 
+# 基本的にAjaxから呼ぶ
 def log(request):
-    response = "aiueoaieoaieu"
-    return HttpResponse(response)
+    kind = request.GET['kind']
+    count = Log.objects.filter(page_kind=kind).count()
+    return HttpResponse(count)
