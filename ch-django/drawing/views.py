@@ -45,7 +45,7 @@ def userworks(request, user_id):
 
 
 # ランキング作品抽出ビュー
-def ranking(request, kind, resolution):
+def ranking_high(request, kind):
     image_urls = []
 
     Log.objects.create(page_kind="ranking")
@@ -62,12 +62,61 @@ def ranking(request, kind, resolution):
         image_urls.append(work["work"]["image_urls"]["small"])
 
     image_json = json.dumps({'image_urls': image_urls})
-    template_name = 'drawing/index_' + resolution + '.html'
 
     result = {
         "data": image_json
     }
-    return render(request, template_name, result)
+    return render(request, 'drawing/index_high.html', result)
+
+
+# ランキング作品抽出ビュー
+def ranking_mid(request, kind):
+    image_urls = []
+
+    Log.objects.create(page_kind="ranking")
+
+    query_string = urllib.urlencode({"mode": kind, "page": 1})
+    response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
+
+    if response.code != 200:
+        raise Exception("HTTP Error %d : %s" % (response.code, response.raw_body))
+
+    json_data = response.body
+    works = json_data["response"][0]["works"]
+    for work in works:
+        image_urls.append(work["work"]["image_urls"]["small"])
+
+    image_json = json.dumps({'image_urls': image_urls})
+
+    result = {
+        "data": image_json
+    }
+    return render(request, 'drawing/index_mid.html', result)
+
+
+# ランキング作品抽出ビュー
+def ranking_low(request, kind):
+    image_urls = []
+
+    Log.objects.create(page_kind="ranking")
+
+    query_string = urllib.urlencode({"mode": kind, "page": 1})
+    response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
+
+    if response.code != 200:
+        raise Exception("HTTP Error %d : %s" % (response.code, response.raw_body))
+
+    json_data = response.body
+    works = json_data["response"][0]["works"]
+    for work in works:
+        image_urls.append(work["work"]["image_urls"]["small"])
+
+    image_json = json.dumps({'image_urls': image_urls})
+
+    result = {
+        "data": image_json
+    }
+    return render(request, 'drawing/index_low.html', result)
 
 
 # 基本的にAjaxから呼ぶ
