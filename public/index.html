@@ -14,7 +14,10 @@
   </style>
  </head>
  <body>
-
+   <h3>gyro</h3>
+   <h3 id="a">あああ</h3>
+   <h3 id="b">あああ</h3>
+   <h3 id="c">あああ</h3>
   <script src="build/three.js"></script>
 
   <script src="js/renderers/Projector.js"></script>
@@ -31,14 +34,14 @@
    var cube, plane;
 
    var targetRotationX = 0;
-  var targetRotationY = 0;
+   var targetRotationY = 0;
    var targetRotationXOnMouseDown = 0;
-  var targetRotationYOnMouseDown = 0;
+   var targetRotationYOnMouseDown = 0;
 
-  var mouseX = 0;
+   var mouseX = 0;
    var mouseXOnMouseDown = 0;
 
-  var mouseY = 0;
+   var mouseY = 0;
    var mouseYOnMouseDown = 0;
 
    var windowHalfX = window.innerWidth / 2;
@@ -123,11 +126,10 @@
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-
+    document.addEventListener( 'deviceorientation', onDeviceOrientation, false );
     //
 
     window.addEventListener( 'resize', onWindowResize, false );
-
    }
 
    function onWindowResize() {
@@ -162,14 +164,12 @@
    function onDocumentMouseMove( event ) {
 
     mouseX = event.clientX - windowHalfX;
-  mouseY  = event.clientY - windowHalfY;
-
+    mouseY  = event.clientY - windowHalfY;
     targetRotationX = targetRotationXOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
   targetRotationY = targetRotationYOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.02;
    }
 
    function onDocumentMouseUp( event ) {
-
     document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
     document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
     document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
@@ -184,10 +184,18 @@
 
    }
 
+   function onDeviceOrientation(event) {
+     var alpha = event.alpha;
+     var beta = event.beta;
+     var gamma = event.gamma;
+     document.getElementById("a").innerHTML = alpha;
+     document.getElementById("b").innerHTML = beta;
+     document.getElementById("c").innerHTML = gamma;
+   }
+
    function onDocumentTouchStart( event ) {
 
     if ( event.touches.length === 1 ) {
-
      event.preventDefault();
 
      mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
@@ -228,7 +236,7 @@
    function render() {
 
    plane.rotation.y = cube.rotation.y += ( targetRotationX - cube.rotation.y ) * 0.05;
-  plane.rotation.x = cube.rotation.x += ( targetRotationY - cube.rotation.x ) * 0.05;
+   plane.rotation.x = cube.rotation.x += ( targetRotationY - cube.rotation.x ) * 0.05;
     renderer.render( scene, camera );
 
    }
