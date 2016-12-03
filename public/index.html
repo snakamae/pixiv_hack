@@ -195,8 +195,8 @@
          "http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png",
      ];
       var canv = document.createElement("canvas");
-      canv.width = 2000;
-      canv.height = 1000;
+      canv.width = 1000;
+      canv.height = 500;
 
       var allnum = imgFile.length;
       var cnt = 0;
@@ -223,14 +223,14 @@
        var m = 0;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 100; y < canv.height - 150; y += 150)
+       for(var y = 80; y < canv.height - 150; y += 80)
        {
-           for(var x = 0; x < canv.width; x += 150)
+           for(var x = 0; x < canv.width; x += 80)
            {
                var img = imgList[m % imgList.length];
               m += n + Math.round(10 * Math.random());
               n++;
-              ctx.drawImage(img, x, y, 130, 130);
+              ctx.drawImage(img, x, y, 70, 70);
            }
        }
        //
