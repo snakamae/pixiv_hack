@@ -1,0 +1,9 @@
+### Django ###
+*.log
+*.pot
+*.pyc
+ch-django/__pycache__/
+ch-django/local_settings.py
+ch-django/db.sqlite3
+ch-django/media
+.idea/*
