@@ -45,13 +45,12 @@ def userworks(request, user_id):
 
 
 # ランキング作品抽出ビュー
-def ranking(request, kind):
+def ranking(request, kind, resolution):
     image_urls = []
 
     Log.objects.create(page_kind="ranking")
 
     query_string = urllib.urlencode({"mode": kind, "page": 1})
-
     response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
 
     if response.code != 200:
@@ -63,11 +62,12 @@ def ranking(request, kind):
         image_urls.append(work["work"]["image_urls"]["small"])
 
     image_json = json.dumps({'image_urls': image_urls})
+    template_name = 'drawing/index_' + resolution + '.html'
 
     result = {
         "data": image_json
     }
-    return render(request, 'drawing/data_output.html', result)
+    return render(request, template_name, result)
 
 
 # 基本的にAjaxから呼ぶ
