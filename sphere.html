@@ -28,7 +28,7 @@
 
    var camera, scene, renderer;
 
-   var cube, plane, mesh;
+   var mesh;
 
    var targetRotationX = 0;
   var targetRotationY = 0;
@@ -68,49 +68,39 @@
 
     // Cube
 
-    var geometry = new THREE.SphereGeometry( 200 );
-
-    // for ( var i = 0; i < geometry.faces.length; i += 2 ) {
+    // var geometry = new THREE.SphereGeometry( 200 );
     //
-    //  var hex = Math.random() * 0xffffff;
-    //  geometry.faces[ i ].color.setHex( hex );
-    //  geometry.faces[ i + 1 ].color.setHex( hex );
+    // // for ( var i = 0; i < geometry.faces.length; i += 2 ) {
+    // //
+    // //  var hex = Math.random() * 0xffffff;
+    // //  geometry.faces[ i ].color.setHex( hex );
+    // //  geometry.faces[ i + 1 ].color.setHex( hex );
+    // //
+    // // }
     //
+    // var materialTop = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('https://pbs.twimg.com/profile_images/660946436801101824/niM7azZS.jpg')});
+    // var materialSide = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
+    // var materialBottom = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
+    //
+    // var materialsArray = [];
+    //
+    // materialsArray.push(materialTop); //materialindex = 0
+    // materialsArray.push(materialSide); // materialindex = 1
+    // materialsArray.push(materialBottom); // materialindex = 2
+    // var material = new THREE.MeshFaceMaterial(materialsArray);
+    // var aFaces = geometry.faces.length;
+    // for(var i=0;i<aFaces;i++) {
+    // geometry.faces[i].materialindex;
     // }
-
-    var materialTop = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('https://pbs.twimg.com/profile_images/660946436801101824/niM7azZS.jpg')});
-    var materialSide = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
-    var materialBottom = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
-
-    var materialsArray = [];
-
-    materialsArray.push(materialTop); //materialindex = 0
-    materialsArray.push(materialSide); // materialindex = 1
-    materialsArray.push(materialBottom); // materialindex = 2
-    var material = new THREE.MeshFaceMaterial(materialsArray);
-    var aFaces = geometry.faces.length;
-    for(var i=0;i<aFaces;i++) {
-    geometry.faces[i].materialindex;
-    }
-
-
-    //var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0 } );
-    material.side = THREE.DoubleSide;
-    cube = new THREE.Mesh( geometry, material );
-    cube.position.y = 150;
+    //
+    //
+    // //var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0 } );
+    // material.side = THREE.DoubleSide;
+    // cube = new THREE.Mesh( geometry, material );
+    // cube.position.y = 150;
   //  scene.add( cube );
 
   drawObject();
-
-    // Plane
-
-    var geometry = new THREE.PlaneBufferGeometry( 200, 200 );
-    geometry.rotateX( - Math.PI / 2 );
-
-    var material = new THREE.MeshBasicMaterial( { color: 0xe0e0e0, overdraw: 0.5 } );
-
-    plane = new THREE.Mesh( geometry, material );
-    //scene.add( plane );
 
     renderer = new THREE.CanvasRenderer();
     renderer.setClearColor( 0xf0f0f0 );
@@ -126,8 +116,6 @@
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-
-    //
 
     window.addEventListener( 'resize', onWindowResize, false );
 
@@ -230,8 +218,8 @@
 
    function render() {
 
-   plane.rotation.y = cube.rotation.y = mesh.rotation.y += ( targetRotationX - cube.rotation.y ) * 0.05;
-  plane.rotation.x = cube.rotation.x = mesh.rotation.x += ( targetRotationY - cube.rotation.x ) * 0.05;
+   mesh.rotation.y += ( targetRotationX - mesh.rotation.y ) * 0.05;
+  mesh.rotation.x += ( targetRotationY - mesh.rotation.x ) * 0.05;
     renderer.render( scene, camera );
 
    }
