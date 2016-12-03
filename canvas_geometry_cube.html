@@ -15,7 +15,7 @@
  </head>
  <body>
 
-  <script src="../build/three.js"></script>
+  <script src="build/three.js"></script>
 
   <script src="js/renderers/Projector.js"></script>
   <script src="js/renderers/CanvasRenderer.js"></script>
@@ -68,7 +68,7 @@
 
     // Cube
 
-    var geometry = new THREE.SphereGeometry( 200, 30, 30 );
+    var geometry = new THREE.SphereGeometry( 200, 50, 50 );
 
     for ( var i = 0; i < geometry.faces.length; i += 2 ) {
 
@@ -78,7 +78,24 @@
 
     }
 
+    // var materialTop = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('1.jpg')});
+    // var materialSide = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('2.jpg')});
+    // var materialBottom = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('3.jpg')});
+    // var materialsArray = [];
+    // materialsArray.push(materialTop); //materialindex = 0
+    // materialsArray.push(materialSide); // materialindex = 1
+    // materialsArray.push(materialBottom); // materialindex = 2
+
     var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0 } );
+    var aFaces = geometry.faces.length;
+    console.log(aFaces);
+    for(var i=0;i<aFaces;i++) {
+    geometry.faces[i].materialindex;
+    }
+    var cone = new THREE.Mesh(geometry, material);
+
+
+    //var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0 } );
     material.side = THREE.DoubleSide;
     cube = new THREE.Mesh( geometry, material );
     cube.position.y = 150;
