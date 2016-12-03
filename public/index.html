@@ -263,26 +263,26 @@
    //---------------------------------------------------------
    function drawImage(canv, imgList)
    {
-       var ctx = canv.getContext('2d');
-       var n = 0;
-       var m = 0;
-       var ysiz = imgList[n].height;
-       var xsiz = imgList[n].width;
-       for(var y = 350; y < canv.height - 400; y += 210)
-       {
-           for(var x = 0; x < canv.width; x += 210)
-           {
-               var img = imgList[m % imgList.length];
-              m += n + Math.round(50 * Math.random());
-              n++;
-               if(img.width > 0)
-                   //読み込めたやつ
-                  ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
-           }
-       }
+      //  var ctx = canv.getContext('2d');
+      //  var n = 0;
+      //  var m = 0;
+      //  var ysiz = imgList[n].height;
+      //  var xsiz = imgList[n].width;
+      //  for(var y = 350; y < canv.height - 400; y += 210)
+      //  {
+      //      for(var x = 0; x < canv.width; x += 210)
+      //      {
+      //          var img = imgList[m % imgList.length];
+      //         m += n + Math.round(50 * Math.random());
+      //         n++;
+      //          if(img.width > 0)
+      //              //読み込めたやつ
+      //             ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
+      //      }
+      //  }
        //
       //  // テクスチャを作成
-        var tex = new THREE.Texture(canv);
+        var tex = new THREE.Texture(imgList[0]);
         tex.needsUpdate = true;
        //
       //  //マテリアルとメッシュを作ってシーンに追加

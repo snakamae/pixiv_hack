@@ -270,7 +270,7 @@
        var xsiz = imgList[n].width;
        for(var y = 80; y < canv.height - 150; y += 80)
        {
-           for(var x = 0; x < canv.width; x += 80)
+           for(var x = 0; x < canv.width - 80; x += 80)
            {
                var img = imgList[m % imgList.length];
               m += n + Math.round(50 * Math.random());
@@ -280,19 +280,14 @@
                    ctx.drawImage(img, x, y, xsiz*70/150, ysiz*70/150);
            }
        }
-       //
-      //  // テクスチャを作成
-        var tex = new THREE.Texture(canv);
+
+        var tex = new THREE.Texture(tex);
         tex.needsUpdate = true;
-       //
-      //  //マテリアルとメッシュを作ってシーンに追加
         var geo = new THREE.SphereGeometry(200);
         geo.scale(-1,1,1);
-      //  geo.position.y =  150;
-    //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
         var mat = new THREE.MeshBasicMaterial({map: tex});
-    mat.side = THREE.DoubleSide;
-         mesh = new THREE.Mesh(geo, mat);
+        mat.side = THREE.DoubleSide;
+        mesh = new THREE.Mesh(geo, mat);
         scene.add(mesh);
    }
 
