@@ -257,8 +257,8 @@
 
 
        var canv = document.createElement("canvas");
-       canv.width = 2000;
-       canv.height = 2000;
+       canv.width = 4000;
+       canv.height = 1000;
 
        var allnum = imgFile.length;
        var cnt = 0;
@@ -294,9 +294,9 @@
        {
            for(var x = 0; x < canv.width; x += xsiz)
            {
-               var img = imgList[n++ % imgList.length];
-              //m += n + Math.round(10 * Math.random());
-              //n++;
+               var img = imgList[m % imgList.length];
+              m += n + Math.round(10 * Math.random());
+              n++;
                if(img.width > 0)
                    //読み込めたやつ
                    ctx.drawImage(img, x, y);
@@ -317,7 +317,7 @@
         tex.needsUpdate = true;
        //
       //  //マテリアルとメッシュを作ってシーンに追加
-        var geo = new THREE.SphereGeometry(800);
+        var geo = new THREE.SphereGeometry(500);
       //  geo.position.y =  150;
     //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
         var mat = new THREE.MeshBasicMaterial({map: tex});
