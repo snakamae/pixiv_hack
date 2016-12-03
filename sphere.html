@@ -15,12 +15,12 @@
  </head>
  <body>
 
-  <script src="build/three.js"></script>
+  <script src="public/build/three.js"></script>
 
-  <script src="js/renderers/Projector.js"></script>
-  <script src="js/renderers/CanvasRenderer.js"></script>
+  <script src="public/js/renderers/Projector.js"></script>
+  <script src="public/js/renderers/CanvasRenderer.js"></script>
 
-  <script src="js/libs/stats.min.js"></script>
+  <script src="public/js/libs/stats.min.js"></script>
 
   <script>
 
@@ -52,13 +52,6 @@
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-    var info = document.createElement( 'div' );
-    info.style.position = 'absolute';
-    info.style.top = '10px';
-    info.style.width = '100%';
-    info.style.textAlign = 'center';
-    info.innerHTML = 'Drag to spin the cube';
-    container.appendChild( info );
 
     camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
      camera.position.y = 50;
@@ -66,39 +59,7 @@
 
     scene = new THREE.Scene();
 
-    // Cube
 
-    // var geometry = new THREE.SphereGeometry( 200 );
-    //
-    // // for ( var i = 0; i < geometry.faces.length; i += 2 ) {
-    // //
-    // //  var hex = Math.random() * 0xffffff;
-    // //  geometry.faces[ i ].color.setHex( hex );
-    // //  geometry.faces[ i + 1 ].color.setHex( hex );
-    // //
-    // // }
-    //
-    // var materialTop = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('https://pbs.twimg.com/profile_images/660946436801101824/niM7azZS.jpg')});
-    // var materialSide = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
-    // var materialBottom = new THREE.MeshPhongMaterial({color: 0xffffff, side:THREE.DoubleSide, map: THREE.ImageUtils.loadTexture('http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png')});
-    //
-    // var materialsArray = [];
-    //
-    // materialsArray.push(materialTop); //materialindex = 0
-    // materialsArray.push(materialSide); // materialindex = 1
-    // materialsArray.push(materialBottom); // materialindex = 2
-    // var material = new THREE.MeshFaceMaterial(materialsArray);
-    // var aFaces = geometry.faces.length;
-    // for(var i=0;i<aFaces;i++) {
-    // geometry.faces[i].materialindex;
-    // }
-    //
-    //
-    // //var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0 } );
-    // material.side = THREE.DoubleSide;
-    // cube = new THREE.Mesh( geometry, material );
-    // cube.position.y = 150;
-  //  scene.add( cube );
 
   drawObject();
 
@@ -108,8 +69,8 @@
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
 
-    stats = new Stats();
-    container.appendChild( stats.dom );
+    //stats = new Stats();
+    //container.appendChild( stats.dom );
 
 
 
@@ -210,9 +171,9 @@
 
     requestAnimationFrame( animate );
 
-    stats.begin();
+    //stats.begin();
     render();
-    stats.end();
+    //stats.end();
 
    }
 
@@ -236,13 +197,15 @@
            "http://pokemon.appbako.com/wp-content/uploads/2016/08/zenigame.png",
            "http://vignette4.wikia.nocookie.net/pocketmonsters/images/2/21/001Bulbasaur.png/revision/latest?cb=20110511045443&path-prefix=ja",
            "http://stamp.jp.net/wp-content/uploads/icon/6/1626_icon.png",
-           "http://konomi.me/file/parts/I0003778/ab8accd309beb19a5385078fdd8568a9.jpg"
+           "http://konomi.me/file/parts/I0003778/ab8accd309beb19a5385078fdd8568a9.jpg",
+           "https://upload.wikimedia.org/wikipedia/en/c/cf/Wario-mario_party_8.png"
+
        ];
 
 
        var canv = document.createElement("canvas");
-       canv.width = 6000;
-       canv.height = 3000;
+       canv.width = 4000;
+       canv.height = 1000;
 
        var allnum = imgFile.length;
        var cnt = 0;
@@ -274,7 +237,7 @@
        var m = 0;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 0; y < canv.height; y += ysiz)
+       for(var y = 5; y < canv.height; y += ysiz)
        {
            for(var x = 0; x < canv.width; x += xsiz)
            {
@@ -301,7 +264,7 @@
         tex.needsUpdate = true;
        //
       //  //マテリアルとメッシュを作ってシーンに追加
-        var geo = new THREE.SphereGeometry(500);
+        var geo = new THREE.SphereGeometry(800);
       //  geo.position.y =  150;
     //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});
         var mat = new THREE.MeshBasicMaterial({map: tex});
