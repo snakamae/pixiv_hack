@@ -4,6 +4,26 @@
   <script>
     var img_data = {{ data|safe }}
 
+    $(function(){
+    setInterval(function(){
+        $.ajax({
+	        url : '/drawing/log',
+	        success : function(data)
+	        {
+		        console.log(data);
+	        },
+	        error : function(data)
+	        {
+		        console.log(data);
+	        },
+	        complete : function(data)
+	        {
+
+	        }
+        });
+    },1000);
+    });
+
    var container, stats;
 
    var camera, scene, renderer;
