@@ -7,14 +7,8 @@
     <title>{% block title %}Demo{% endblock %}</title>
     <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="2; URL={% url 'ranking_high' 'monthly' %}">
 </head>
 <body>
-<script>
-    var win = window.open('http://dev.pixiv.net', '_blank');
-    setTimeout(function() {
-        win.close();
-    }, 1200);
-</script>
+<a href="{% url 'ranking_high' 'monthly' %}" onclick="window.open('http://dev.pixiv.net');window.close();" target="_blank">リンク</a>
 </body>
 </html>
