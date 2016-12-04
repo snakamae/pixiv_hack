@@ -15,8 +15,14 @@
             background-color: #000000;
             margin: 0px;
             overflow: hidden;
+            display:none;
         }
     </style>
+    <script>
+        $(document).ready(function() {
+            $('body').fadeIn(3000);
+        });
+    </script>
     {% block extrahead %}{% endblock %}
 </head>
 <body>
