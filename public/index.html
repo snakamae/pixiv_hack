@@ -125,21 +125,25 @@
      targetRotationXOnMouseDown = targetRotationX;
      targetRotationYOnMouseDown = targetRotationY;
 
-     var interval = 1000;
+     var interval = 500;
      longtapX = mouseXOnMouseDown
      longtapY = mouseYOnMouseDown
      timer = setTimeout(function(){
-       if(campo==true){
-           if(camera.position.z>50){
-             camera.position.z-=250;
-           } else {
-             campo = false;
-             camout()
-           }
-       } else if(campo==false){
-         camout();
-         console.log(camera.position.z);
-       }
+        if(camera.position.z>=100){
+          intervalTimer = setInterval(function(){
+            camera.position.z-=5;
+            if (camera.position.z <= -170) {
+              clearInterval(intervalTimer);
+            }
+          },0.01);
+        } else {
+          intervalTimer = setInterval(function(){
+            camera.position.z+=5;
+            if (camera.position.z >= 100) {
+              clearInterval(intervalTimer);
+            }
+          },0.01);
+        }
      }, interval);
    }
 
@@ -161,7 +165,7 @@
 
      meshm.position.copy(pos);
 
-      if ((Math.abs(longtapX - mouseX) > 10) || (Math.abs(longtapY - mouseY) > 10)) {
+      if ((Math.abs(longtapX - mouseX) > 30) || (Math.abs(longtapY - mouseY) > 30)) {
         clearTimeout(timer);
       }
    }
@@ -203,31 +207,25 @@
 
        longtapX = mouseXOnMouseDown
        longtapY = mouseYOnMouseDown
-        var interval = 1000;
-        timer = setTimeout(function(){
-          if(campo==true){
-              if(camera.position.z>50){
-                camera.position.z-=250;
+       var interval = 500;
+       timer = setTimeout(function(){
+          if(camera.position.z>=100){
+            intervalTimer = setInterval(function(){
+              camera.position.z-=5;
+              if (camera.position.z <= -170) {
+                clearInterval(intervalTimer);
               }
-              else {
-                campo = false;
-                camout()
+            },0.01);
+          } else {
+            intervalTimer = setInterval(function(){
+              camera.position.z+=5;
+              if (camera.position.z >= 100) {
+                clearInterval(intervalTimer);
               }
-          } else if(campo==false){
-            camout();
-            console.log(camera.position.z);
+            },0.01);
           }
-        }, interval);
+       }, interval);
       }
-   }
-
-   function camout(){
-     if(camera.position.z<50){
-       camera.position.z+=250 ;
-       console.log('going out')
-     } else{
-       campo=true;
-     }
    }
 
    function onDocumentTouchMove( event ) {
@@ -251,7 +249,7 @@
 
       meshm.position.copy(pos);
 
-      if ((Math.abs(longtapX - mouseX) > 10) || (Math.abs(longtapY - mouseY) > 10)) {
+      if ((Math.abs(longtapX - mouseX) > 30) || (Math.abs(longtapY - mouseY) > 30)) {
         clearTimeout(timer);
       }
 
@@ -322,12 +320,12 @@
        var xsiz = imgList[n].width;
        for(var y = 350; y < canv.height - 400; y += 210)
        {
-           for(var x = 0; x < canv.width; x += 210)
+           for(var x = 210; x < canv.width; x += 210)
            {
               var img = imgList[m % imgList.length];
               m += n + Math.round(50 * Math.random());
               n++;
-              ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
+              ctx.drawImage(img, x, y, 180, 180);
            }
        }
 
