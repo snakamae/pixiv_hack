@@ -1,0 +1,20 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Demo{% endblock %}</title>
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="2; URL={% url 'ranking_high' 'monthly' %}">
+</head>
+<body>
+<script>
+    var win = window.open('http://dev.pixiv.net', '_blank');
+    setTimeout(function() {
+        win.close();
+    }, 1200);
+</script>
+</body>
+</html>

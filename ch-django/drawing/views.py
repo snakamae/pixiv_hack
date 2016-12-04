@@ -119,3 +119,8 @@ def log(request):
     kind = request.GET['kind']
     count = Log.objects.filter(page_kind=kind).count()
     return HttpResponse(count)
+
+
+# デモ用
+def demo_view(request):
+    return render(request, 'demo/demo_page.html')
