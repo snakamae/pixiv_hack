@@ -179,7 +179,7 @@
         if(camera.position.z>=100){
           intervalTimer = setInterval(function(){
             camera.position.z-=5;
-            if (camera.position.z <= -190) {
+            if (camera.position.z <= -160) {
               clearInterval(intervalTimer);
             }
           },0.01);
@@ -269,7 +269,7 @@
           if(camera.position.z>=100){
             intervalTimer = setInterval(function(){
               camera.position.z-=40;
-              if (camera.position.z <= -190) {
+              if (camera.position.z <= -160) {
                 clearInterval(intervalTimer);
               }
             },0.01);
