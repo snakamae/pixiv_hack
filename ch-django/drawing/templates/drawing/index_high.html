@@ -20,6 +20,8 @@
 		        if (data > log_count) {
 		            if (log_count != 0) {
 		                alert_login();
+		                var audio = document.getElementById("bell");
+		                audio.play();
 		            };
 		            log_count = data;
 		        };
