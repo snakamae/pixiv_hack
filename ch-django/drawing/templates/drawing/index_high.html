@@ -391,24 +391,6 @@
           scene.add(meshm);
    }
 
-   function clearScene() {
-      scene.remove( mesh );
-      geometry.dispose();
-      material.dispose();
-      texture.dispose();
-   }
-
-   function reset() {
-   console.log("click");
-      clearScene();
-      init();
-      animate();
-      render();
-   }
-
 
   </script>
-<form name="test">
-<input type="button" name="yahoo" value="Yahoo!Japanへ" style="display:absolute;">
-</form>
 {% endblock content %}
