@@ -211,14 +211,14 @@
        timer = setTimeout(function(){
           if(camera.position.z>=100){
             intervalTimer = setInterval(function(){
-              camera.position.z-=5;
+              camera.position.z-=20;
               if (camera.position.z <= -170) {
                 clearInterval(intervalTimer);
               }
             },0.01);
           } else {
             intervalTimer = setInterval(function(){
-              camera.position.z+=5;
+              camera.position.z+=20;
               if (camera.position.z >= 100) {
                 clearInterval(intervalTimer);
               }
