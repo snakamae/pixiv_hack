@@ -4,9 +4,12 @@
   <script>
     var img_data = {{ data|safe }}
     var log_count = 0;
+
+    // 一定時間毎にサーバに問い合わせ，新しくユーザがアクセスしたかをチェック
+    // ログの件数が更新されていたらダイアログを流す
     $(function(){
-    setInterval(function(){
-        $.ajax({
+      setInterval(function(){
+         $.ajax({
 	        url : '/drawing/log',
 	        type: 'GET',
 	        data: {
@@ -30,7 +33,7 @@
 
 	        }
         });
-    },4000);
+      },4000);
     });
 
     var alert_login = function() {

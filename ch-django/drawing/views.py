@@ -40,11 +40,13 @@ def userworks(request, user_id):
     return render(request, 'drawing/data_output.html', result)
 
 
-# ランキング作品抽出ビュー
+# ランキング作品抽出ビュー(HIGH解像度)
 def ranking_high(request, kind):
     image_urls = []
 
     Log.objects.create(page_kind="ranking")
+
+    # image_urlを100件取得するために2回回す
     for i in range(2):
         query_string = urllib.urlencode({"mode": kind, "page": (i + 1)})
         response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
@@ -64,7 +66,7 @@ def ranking_high(request, kind):
     return render(request, 'drawing/index_high.html', result)
 
 
-# ランキング作品抽出ビュー
+# ランキング作品抽出ビュー(MID解像度)
 def ranking_mid(request, kind):
     image_urls = []
 
@@ -88,7 +90,7 @@ def ranking_mid(request, kind):
     return render(request, 'drawing/index_mid.html', result)
 
 
-# ランキング作品抽出ビュー
+# ランキング作品抽出ビュー(LOW解像度)
 def ranking_low(request, kind):
     image_urls = []
 
