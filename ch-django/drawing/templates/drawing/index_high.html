@@ -339,7 +339,7 @@
            "http://blogimg.goo.ne.jp/user_image/7a/d9/3eab986c22dc3100de48062173d94cd9.jpg",
        ];
 
-       for (var i = 0; i < 100; i++) {
+       for (var i = 0; i < 200; i++) {
            imgFile.push(img_data["image_urls"][i]);
        }
 
@@ -391,7 +391,7 @@
                var num =m % imgList.length;
                if (num==0){num++;}
                img = imgList[num];
-               m = Math.round(100 * Math.random());
+               m = Math.round(200 * Math.random());
                ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
              }
            }
@@ -402,7 +402,7 @@
         tex.needsUpdate = true;
        //
       //  //マテリアルとメッシュを作ってシーンに追加
-        var geo = new THREE.SphereGeometry(400);
+        var geo = new THREE.SphereGeometry(400,25,15);
         geo.scale(-1,1,1);
       //  geo.position.y =  150;
     //    mat = new THREE.MeshPhongMaterial({color: 0xff0000});

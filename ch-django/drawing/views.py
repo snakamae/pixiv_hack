@@ -46,8 +46,8 @@ def ranking_high(request, kind):
 
     Log.objects.create(page_kind="ranking")
 
-    # image_urlを100件取得するために2回回す
-    for i in range(2):
+    # image_urlを200件取得するために4回回す
+    for i in range(4):
         query_string = urllib.urlencode({"mode": kind, "page": (i + 1)})
         response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
 
