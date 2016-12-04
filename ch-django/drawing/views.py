@@ -49,17 +49,16 @@ def ranking_high(request, kind):
     image_urls = []
 
     Log.objects.create(page_kind="ranking")
+    for i in range(2):
+        query_string = urllib.urlencode({"mode": kind, "page": (i + 1)})
+        response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
 
-    query_string = urllib.urlencode({"mode": kind, "page": 1})
-    response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
-
-    if response.code != 200:
-        raise Exception("HTTP Error %d : %s" % (response.code, response.raw_body))
-
-    json_data = response.body
-    works = json_data["response"][0]["works"]
-    for work in works:
-        image_urls.append(work["work"]["image_urls"]["small"])
+        if response.code != 200:
+            raise Exception("HTTP Error %d : %s" % (response.code, response.raw_body))
+        json_data = response.body
+        works = json_data["response"][0]["works"]
+        for work in works:
+            image_urls.append(work["work"]["image_urls"]["small"])
 
     image_json = json.dumps({'image_urls': image_urls})
 
@@ -74,17 +73,16 @@ def ranking_mid(request, kind):
     image_urls = []
 
     Log.objects.create(page_kind="ranking")
+    for i in range(2):
+        query_string = urllib.urlencode({"mode": kind, "page": (i + 1)})
+        response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
 
-    query_string = urllib.urlencode({"mode": kind, "page": 1})
-    response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
-
-    if response.code != 200:
-        raise Exception("HTTP Error %d : %s" % (response.code, response.raw_body))
-
-    json_data = response.body
-    works = json_data["response"][0]["works"]
-    for work in works:
-        image_urls.append(work["work"]["image_urls"]["small"])
+        if response.code != 200:
+            raise Exception("HTTP Error %d : %s" % (response.code, response.raw_body))
+        json_data = response.body
+        works = json_data["response"][0]["works"]
+        for work in works:
+            image_urls.append(work["work"]["image_urls"]["small"])
 
     image_json = json.dumps({'image_urls': image_urls})
 
@@ -99,17 +97,16 @@ def ranking_low(request, kind):
     image_urls = []
 
     Log.objects.create(page_kind="ranking")
+    for i in range(2):
+        query_string = urllib.urlencode({"mode": kind, "page": (i + 1)})
+        response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
 
-    query_string = urllib.urlencode({"mode": kind, "page": 1})
-    response = unirest.get(API_URL + "/ranking/all?" + query_string, headers=API_HEADER)
-
-    if response.code != 200:
-        raise Exception("HTTP Error %d : %s" % (response.code, response.raw_body))
-
-    json_data = response.body
-    works = json_data["response"][0]["works"]
-    for work in works:
-        image_urls.append(work["work"]["image_urls"]["small"])
+        if response.code != 200:
+            raise Exception("HTTP Error %d : %s" % (response.code, response.raw_body))
+        json_data = response.body
+        works = json_data["response"][0]["works"]
+        for work in works:
+            image_urls.append(work["work"]["image_urls"]["small"])
 
     image_json = json.dumps({'image_urls': image_urls})
 

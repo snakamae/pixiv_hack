@@ -64,9 +64,9 @@
 
    var mesh;
 
-   var targetRotationX = 0;
+  var targetRotationX = 0;
   var targetRotationY = 0;
-   var targetRotationXOnMouseDown = 0;
+  var targetRotationXOnMouseDown = 0;
   var targetRotationYOnMouseDown = 0;
 
   var mouseX = 0;
@@ -315,7 +315,7 @@
    function drawObject()
    {
        var imgFile = [];
-       for (var i = 0; i < 50; i++) {
+       for (var i = 0; i < 100; i++) {
            imgFile.push(img_data["image_urls"][i]);
        }
 
@@ -391,7 +391,24 @@
           scene.add(meshm);
    }
 
+   function clearScene() {
+      scene.remove( mesh );
+      geometry.dispose();
+      material.dispose();
+      texture.dispose();
+   }
+
+   function reset() {
+   console.log("click");
+      clearScene();
+      init();
+      animate();
+      render();
+   }
+
 
   </script>
-
+<form name="test">
+<input type="button" name="yahoo" value="Yahoo!Japanへ" style="display:absolute;">
+</form>
 {% endblock content %}
