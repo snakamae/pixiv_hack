@@ -73,14 +73,13 @@
      var  meshm;
      var mode = "touch"
 
-   init();
-   animate();
+     init();
+     animate();
 
    function init() {
 
      container = document.createElement( 'div' );
      document.body.appendChild( container );
-
 
      camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
      camera.position.y = 50;
@@ -208,9 +207,6 @@
    }
 
    function onDocumentTouchStart( event ) {
-     if (mode != "touch") {
-        return;
-     }
      if ( event.touches.length === 1 ) {
        event.preventDefault();
        mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
@@ -242,9 +238,6 @@
    }
 
    function onDocumentTouchMove( event ) {
-     if (mode != "touch") {
-        return;
-     }
     if ( event.touches.length === 1 ) {
       event.preventDefault();
       mouseX = event.touches[ 0 ].pageX - windowHalfX;
