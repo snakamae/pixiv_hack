@@ -317,12 +317,12 @@
        var xsiz = imgList[n].width;
        for(var y = 350; y < canv.height - 400; y += 210)
        {
-           for(var x = 210; x < canv.width; x += 210)
+           for(var x = 0; x < canv.width - 210; x += 210)
            {
               var img = imgList[m % imgList.length];
               m += n + Math.round(50 * Math.random());
               n++;
-              ctx.drawImage(img, x, y, 180, 180);
+              ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
            }
        }
 
