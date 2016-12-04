@@ -124,6 +124,17 @@
      targetRotationXOnMouseDown = targetRotationX;
      targetRotationYOnMouseDown = targetRotationY;
 
+     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+     var vector = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+     vector.unproject(camera);
+     var dir = vector.sub(camera.position).normalize();
+     var distance = -camera.position.z / dir.z;
+     var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+     meshm.position.copy(pos);
+
      var interval = 500;
      longtapX = mouseXOnMouseDown
      longtapY = mouseYOnMouseDown
@@ -203,6 +214,17 @@
        targetRotationXOnMouseDown = targetRotationX;
        targetRotationYOnMouseDown = targetRotationY;
 
+       touch.x = (event.touches[ 0 ].pageX / window.innerWidth) * 2 - 1;
+       touch.y = -(event.touches[ 0 ].pageY / window.innerHeight) * 2 + 1;
+
+       var vector = new THREE.Vector3(touch.x, touch.y, 0.5);
+       vector.unproject(camera);
+       var dir = vector.sub(camera.position).normalize();
+       var distance = -camera.position.z / dir.z;
+       var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+       meshm.position.copy(pos);
+
        longtapX = mouseXOnMouseDown
        longtapY = mouseYOnMouseDown
        var interval = 500;
@@ -236,7 +258,6 @@
 
       touch.x = (event.touches[ 0 ].pageX / window.innerWidth) * 2 - 1;
       touch.y = -(event.touches[ 0 ].pageY / window.innerHeight) * 2 + 1;
-
 
       var vector = new THREE.Vector3(touch.x, touch.y, 0.5);
       vector.unproject(camera);
