@@ -161,6 +161,17 @@
      targetRotationXOnMouseDown = targetRotationX;
      targetRotationYOnMouseDown = targetRotationY;
 
+     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+     var vector = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+     vector.unproject(camera);
+     var dir = vector.sub(camera.position).normalize();
+     var distance = -camera.position.z / dir.z;
+     var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+     meshm.position.copy(pos);
+
      var interval = 500;
      longtapX = mouseXOnMouseDown
      longtapY = mouseYOnMouseDown
@@ -240,6 +251,17 @@
        targetRotationXOnMouseDown = targetRotationX;
        targetRotationYOnMouseDown = targetRotationY;
 
+       touch.x = (event.touches[ 0 ].pageX / window.innerWidth) * 2 - 1;
+       touch.y = -(event.touches[ 0 ].pageY / window.innerHeight) * 2 + 1;
+
+       var vector = new THREE.Vector3(touch.x, touch.y, 0.5);
+       vector.unproject(camera);
+       var dir = vector.sub(camera.position).normalize();
+       var distance = -camera.position.z / dir.z;
+       var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+       meshm.position.copy(pos);
+
        longtapX = mouseXOnMouseDown
        longtapY = mouseYOnMouseDown
        var interval = 500;
@@ -273,7 +295,6 @@
 
       touch.x = (event.touches[ 0 ].pageX / window.innerWidth) * 2 - 1;
       touch.y = -(event.touches[ 0 ].pageY / window.innerHeight) * 2 + 1;
-
 
       var vector = new THREE.Vector3(touch.x, touch.y, 0.5);
       vector.unproject(camera);
@@ -312,10 +333,14 @@
    //---------------------------------------------------------
    function drawObject()
    {
-       var imgFile = [];
+       var imgFile = [
+           "http://blogimg.goo.ne.jp/user_image/7a/d9/3eab986c22dc3100de48062173d94cd9.jpg",
+       ];
+
        for (var i = 0; i < 100; i++) {
            imgFile.push(img_data["image_urls"][i]);
        }
+
 
        var canv = document.createElement("canvas");
        canv.width = 4000;
@@ -347,18 +372,26 @@
    function drawImage(canv, imgList)
    {
        var ctx = canv.getContext('2d');
-       var n = 0;
-       var m = 0;
+       var n = 1;
+       var m = 50;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 350; y < canv.height - 400; y += 210)
+       var img
+       for(var y = 0; y < canv.height; y += 210)
        {
+
            for(var x = 0; x < canv.width - 210; x += 210)
            {
-              var img = imgList[m % imgList.length];
-              m += n + Math.round(50 * Math.random());
-              n++;
-              ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
+             if (y<350) {
+               img = imgList[0];
+               ctx.drawImage(img, x, y, 3220, 1800);
+             }else if(y>350 && y<canv.height-400){
+               var num =m % imgList.length;
+               if (num==0){num++;}
+               img = imgList[num];
+               m = Math.round(50 * Math.random());
+               ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
+             }
            }
        }
 
