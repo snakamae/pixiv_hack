@@ -297,6 +297,7 @@
    function drawObject()
    {
        var imgFile = [
+         "http://blog-imgs-43.fc2.com/a/k/k/akkonokanon/20111001222859542.jpg",
            "http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png"
 
        ];
@@ -332,18 +333,30 @@
    function drawImage(canv, imgList)
    {
        var ctx = canv.getContext('2d');
-       var n = 0;
-       var m = 0;
+       var n = 1;
+       var m = 50;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 350; y < canv.height - 400; y += 210)
+       var img
+       for(var y = 0; y < canv.height; y += 210)
        {
+
            for(var x = 0; x < canv.width - 210; x += 210)
            {
-              var img = imgList[m % imgList.length];
-              m += n + Math.round(50 * Math.random());
-              n++;
-              ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
+             if (y<350) {
+               img = imgList[0];
+               ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
+             }else if(y>350 && y<canv.height-400){
+               var num =m % imgList.length;
+               if (num==0){num++;}
+               img = imgList[num];
+               m = Math.round(50 * Math.random() +1);
+               ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
+             }
+             else{
+                 img = imgList[0];
+                 ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
+             }
            }
        }
 
