@@ -13,10 +13,6 @@ ACCESS_TOKEN = ""
 API_HEADER = {"Authorization": ACCESS_TOKEN}
 
 
-def index(request):
-    return render(request, 'drawing/index.html')
-
-
 # ユーザ投稿作品抽出ビュー
 def userworks(request, user_id):
     # クエリで送るパラメータを辞書形式で指定
