@@ -392,7 +392,7 @@
                if (num==0){num++;}
                img = imgList[num];
                m = Math.round(200 * Math.random());
-               ctx.drawImage(img, x, y, xsiz*180/150, ysiz*180/150);
+               ctx.drawImage(img, x+(210-(img.width*180/150))/2, y+(210-(img.height*180/150))/2, img.width*180/150, img.height*180/150);
              }
            }
        }
