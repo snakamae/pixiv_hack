@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<a href="{% url 'ranking_high' 'monthly' %}" onclick="window.open('http://dev.pixiv.net');window.close();" target="_blank">リンク</a>
+<a href="{% url 'ranking_high' 'daily' %}" onclick="window.open('http://dev.pixiv.net');window.close();" target="_blank">リンクその１</a>
+<a href="{% url 'ranking_high' 'daily' %}">リンクその2</a>
+<p>リンク1でデモが使えない場合はリンク2を開いてください．</p>
 </body>
 </html>
