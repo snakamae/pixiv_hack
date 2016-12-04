@@ -1,62 +1,28 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <title>three.js canvas - geometry - cube</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <style>
+   body {
+    font-family: Monospace;
+    background-color: #000000;
+    margin: 0px;
+    overflow: hidden;
+   }
+  </style>
+ </head>
+ <body>
 
-{% block content %}
+  <script src="build/three.js"></script>
+
+  <script src="js/renderers/Projector.js"></script>
+  <script src="js/renderers/CanvasRenderer.js"></script>
+
+  <script src="js/libs/stats.min.js"></script>
+
   <script>
-    var img_data = {{ data|safe }}
-    var log_count = 0;
-    $(function(){
-    setInterval(function(){
-        $.ajax({
-	        url : '/drawing/log',
-	        type: 'GET',
-	        data: {
-	            'kind': 'ranking',
-	        },
-	        success : function(data)
-	        {
-		        if (data > log_count) {
-		            if (log_count != 0) {
-		                alert_login();
-		            };
-		            log_count = data;
-		        };
-	        },
-	        error : function(data)
-	        {
-		        console.log(data);
-	        },
-	        complete : function(data)
-	        {
-
-	        }
-        });
-    },4000);
-    });
-
-    var alert_login = function() {
-        toastr.options.timeOut = 2000; // 3秒
-        toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": false,
-        "positionClass": "toast-bottom-right",
-        "preventDuplicates": false,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "3000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-        };
-        Command: toastr["info"]("新たにゲストが入場しました！");
-        $('#linkButton').click(function() {
-            toastr.success('click');
-        });
-    };
-
 
    var container, stats;
 
@@ -136,11 +102,11 @@
      targetRotationXOnMouseDown = targetRotationX;
      targetRotationYOnMouseDown = targetRotationY;
 
-     var interval = 500;
+     var interval = 1000;
      timer = setTimeout(function(){
        if(campo==true){
            if(camera.position.z>50){
-             camera.position.z-=100;
+             camera.position.z-=150;
            }
            else {
              campo = false;
@@ -160,7 +126,7 @@
      mouseY  = event.clientY - windowHalfY;
 
      targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.005;
-     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.005;
+     targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.004;
    }
 
    function onDocumentMouseUp( event ) {
@@ -184,7 +150,7 @@
    function onDeviceOrientationY(y) {
      var diffY = parseFloat(y) - gyroDefaultY
      gyroDefaultY = parseFloat(y)
-     targetRotationY = targetRotationY + diffY*1.5
+     targetRotationY = targetRotationY + diffY*1.3
    }
 
    function onDocumentTouchStart( event ) {
@@ -199,11 +165,11 @@
 
 
 
-        var interval = 500;
+        var interval = 1000;
         timer = setTimeout(function(){
           if(campo==true){
               if(camera.position.z>50){
-                camera.position.z-=100;
+                camera.position.z-=150;
               }
               else {
                 campo = false;
@@ -225,7 +191,7 @@
    }
    function camout(){
      if(camera.position.z<50){
-       camera.position.z+=100 ;
+       camera.position.z+=150 ;
        console.log('going out')
      }
      else{
@@ -239,8 +205,8 @@
       event.preventDefault();
       mouseX = event.touches[ 0 ].pageX - windowHalfX;
       mouseY = event.touches[ 0 ].pageY - windowHalfY;
-      targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.006;
-      targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.006;
+      targetRotationX = targetRotationXOnMouseDown - ( mouseX - mouseXOnMouseDown ) * 0.005;
+      targetRotationY = targetRotationYOnMouseDown - ( mouseY - mouseYOnMouseDown ) * 0.004;
     }
    }
 
@@ -262,14 +228,15 @@
    //---------------------------------------------------------
    function drawObject()
    {
-       var imgFile = [];
-       for (var i = 0; i < 10; i++) {
-           imgFile.push(img_data["image_urls"][i]);
-       }
+       var imgFile = [
+           "http://i1.mirror.co.uk/incoming/article7731571.ece/ALTERNATES/s298/Pokemon-charmander.png"
+
+       ];
+
 
        var canv = document.createElement("canvas");
-       canv.width = 1000;
-       canv.height = 500;
+       canv.width = 2000;
+       canv.height = 1000;
 
        var allnum = imgFile.length;
        var cnt = 0;
@@ -301,16 +268,16 @@
        var m = 0;
        var ysiz = imgList[n].height;
        var xsiz = imgList[n].width;
-       for(var y = 80; y < canv.height - 150; y += 80)
+       for(var y = 150; y < canv.height - 200; y += 130)
        {
-           for(var x = 0; x < canv.width; x += 80)
+           for(var x = 0; x < canv.width; x += 130)
            {
                var img = imgList[m % imgList.length];
-              m += n + Math.round(10 * Math.random());
+              m += n + Math.round(50 * Math.random());
               n++;
                if(img.width > 0)
                    //読み込めたやつ
-                   ctx.drawImage(img, x, y, xsiz*70/150, ysiz*70/150);
+                  ctx.drawImage(img, x, y, xsiz*120/150, ysiz*120/150);
            }
        }
        //
@@ -329,6 +296,11 @@
         scene.add(mesh);
    }
 
+
+
+
+
   </script>
 
-{% endblock content %}
+ </body>
+</html>
