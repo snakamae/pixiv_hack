@@ -126,9 +126,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+
 # herokuにデプロイする際、以下のコメントアウトを全て外す
 #import dj_database_url
-#DATABASES['default'] =  dj_database_url.config()
+#DATABASES['default'] = dj_database_url.config()
 #SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 #ALLOWED_HOSTS = ['*']
 #STATIC_ROOT = 'staticfiles'
